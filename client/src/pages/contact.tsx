@@ -46,7 +46,7 @@ const Contact = () => {
               Contact Us
             </h1>
             <p className="text-lg mb-6 text-neutral-100">
-              Have questions about Global Holdings or our portfolio companies? We'd love to hear from you.
+              Have questions about Sirius Global Ventures or our portfolio companies? We'd love to hear from you.
             </p>
           </div>
         </div>
@@ -82,7 +82,7 @@ const Contact = () => {
           <div className="text-center mb-12">
             <h2 className="font-heading font-bold text-3xl text-primary mb-4">Our Locations</h2>
             <p className="text-neutral-400 max-w-3xl mx-auto">
-              Global Holdings has offices in strategic locations around the world to better serve our portfolio companies and investors.
+              Sirius Global Ventures has offices in strategic locations around the world to better serve our portfolio companies and investors.
             </p>
           </div>
           
@@ -139,7 +139,7 @@ const Contact = () => {
                   </div>
                   <div className="flex items-center">
                     <Mail className="h-4 w-4 text-secondary mr-2" />
-                    <span className="text-neutral-500">london@globalholdings.com</span>
+                    <span className="text-neutral-500">febzali@gmail.com</span>
                   </div>
                 </div>
               </div>
@@ -167,7 +167,7 @@ const Contact = () => {
                   </div>
                   <div className="flex items-center">
                     <Mail className="h-4 w-4 text-secondary mr-2" />
-                    <span className="text-neutral-500">singapore@globalholdings.com</span>
+                    <span className="text-neutral-500">febzali@gmail.com</span>
                   </div>
                 </div>
               </div>
@@ -183,7 +183,7 @@ const Contact = () => {
             <div className="text-center mb-12">
               <h2 className="font-heading font-bold text-3xl text-primary mb-4">Frequently Asked Questions</h2>
               <p className="text-neutral-400">
-                Find quick answers to common questions about Global Holdings and our subsidiaries.
+                Find quick answers to common questions about Sirius Global Ventures and our subsidiaries.
               </p>
             </div>
             
@@ -198,7 +198,7 @@ const Contact = () => {
               <div className="bg-neutral-100 rounded-lg p-6">
                 <h3 className="font-heading font-bold text-xl text-primary mb-2">How do I apply for a job at one of your companies?</h3>
                 <p className="text-neutral-500">
-                  Visit our Careers page to browse current job openings across Global Holdings and our portfolio companies. You can apply directly through our online application system.
+                  Visit our Careers page to browse current job openings across Sirius Global Ventures and our portfolio companies. You can apply directly through our online application system.
                 </p>
               </div>
               
