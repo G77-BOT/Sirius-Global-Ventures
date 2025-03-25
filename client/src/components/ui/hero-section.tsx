@@ -74,7 +74,7 @@ const HeroSection = () => {
                       <>
                         {subsidiaries?.map((subsidiary: Subsidiary, index: number) => (
                           <Link key={subsidiary.id} href={`/companies/${subsidiary.name.toLowerCase()}`}>
-                            <a className="bg-neutral-100/80 backdrop-blur-sm rounded-md p-3 text-center hover:bg-neutral-200 transition-all duration-300 hover:shadow-lg transform hover:-translate-y-1">
+                            <div className="bg-neutral-100/80 backdrop-blur-sm rounded-md p-3 text-center hover:bg-neutral-200 transition-all duration-300 hover:shadow-lg transform hover:-translate-y-1 cursor-pointer">
                               <div 
                                 className="w-12 h-12 mx-auto rounded-full flex items-center justify-center mb-2 animate-pulse-slow shadow-md"
                                 style={{ backgroundColor: subsidiary.logoColor }}
@@ -82,7 +82,7 @@ const HeroSection = () => {
                                 <span className="text-white font-bold text-sm">{subsidiary.logoInitials}</span>
                               </div>
                               <div className="text-primary text-sm font-bold">{subsidiary.name}</div>
-                            </a>
+                            </div>
                           </Link>
                         ))}
                         

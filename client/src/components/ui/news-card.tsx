@@ -56,12 +56,12 @@ const NewsCard = ({
         <h3 className="font-heading font-bold text-xl text-primary mb-2">{title}</h3>
         <p className="text-neutral-400 text-sm mb-4">{content}</p>
         <Link href={`/news/${id}`}>
-          <a className="text-secondary hover:text-secondary-dark font-medium text-sm inline-flex items-center">
+          <div className="text-secondary hover:text-secondary-dark font-medium text-sm inline-flex items-center cursor-pointer">
             Read More
             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
             </svg>
-          </a>
+          </div>
         </Link>
       </CardContent>
     </Card>
