@@ -49,13 +49,13 @@ const Footer = () => {
           <div>
             <h4 className="font-heading font-bold text-lg text-white mb-4">Quick Links</h4>
             <ul className="space-y-2">
-              <li><Link href="/"><a className="text-neutral-100/80 hover:text-white transition-colors duration-200">Home</a></Link></li>
-              <li><Link href="/about"><a className="text-neutral-100/80 hover:text-white transition-colors duration-200">About Us</a></Link></li>
-              <li><Link href="/companies"><a className="text-neutral-100/80 hover:text-white transition-colors duration-200">Our Companies</a></Link></li>
-              <li><Link href="/investor-relations"><a className="text-neutral-100/80 hover:text-white transition-colors duration-200">Investor Relations</a></Link></li>
-              <li><Link href="/news"><a className="text-neutral-100/80 hover:text-white transition-colors duration-200">News & Updates</a></Link></li>
-              <li><Link href="/careers"><a className="text-neutral-100/80 hover:text-white transition-colors duration-200">Careers</a></Link></li>
-              <li><Link href="/contact"><a className="text-neutral-100/80 hover:text-white transition-colors duration-200">Contact Us</a></Link></li>
+              <li><Link href="/"><div className="text-neutral-100/80 hover:text-white transition-colors duration-200 cursor-pointer">Home</div></Link></li>
+              <li><Link href="/about"><div className="text-neutral-100/80 hover:text-white transition-colors duration-200 cursor-pointer">About Us</div></Link></li>
+              <li><Link href="/companies"><div className="text-neutral-100/80 hover:text-white transition-colors duration-200 cursor-pointer">Our Companies</div></Link></li>
+              <li><Link href="/investor-relations"><div className="text-neutral-100/80 hover:text-white transition-colors duration-200 cursor-pointer">Investor Relations</div></Link></li>
+              <li><Link href="/news"><div className="text-neutral-100/80 hover:text-white transition-colors duration-200 cursor-pointer">News & Updates</div></Link></li>
+              <li><Link href="/careers"><div className="text-neutral-100/80 hover:text-white transition-colors duration-200 cursor-pointer">Careers</div></Link></li>
+              <li><Link href="/contact"><div className="text-neutral-100/80 hover:text-white transition-colors duration-200 cursor-pointer">Contact Us</div></Link></li>
             </ul>
           </div>
           
@@ -64,12 +64,12 @@ const Footer = () => {
             <ul className="space-y-2">
               <li>
                 <Link href="/companies/bostream">
-                  <a className="text-neutral-100/80 hover:text-white transition-colors duration-200 flex items-center">
+                  <div className="text-neutral-100/80 hover:text-white transition-colors duration-200 flex items-center cursor-pointer">
                     <span className="w-4 h-4 mr-2 bg-secondary rounded-full flex-shrink-0 flex items-center justify-center">
                       <span className="text-white font-bold text-[8px]">BS</span>
                     </span>
                     Bostream
-                  </a>
+                  </div>
                 </Link>
               </li>
               <li>
@@ -124,19 +124,19 @@ const Footer = () => {
             </div>
             <div className="flex space-x-6">
               <Link href="/privacy-policy">
-                <a className="text-neutral-100/60 text-sm hover:text-white transition-colors duration-200">
+                <div className="text-neutral-100/60 text-sm hover:text-white transition-colors duration-200 cursor-pointer">
                   Privacy Policy
-                </a>
+                </div>
               </Link>
               <Link href="/terms">
-                <a className="text-neutral-100/60 text-sm hover:text-white transition-colors duration-200">
+                <div className="text-neutral-100/60 text-sm hover:text-white transition-colors duration-200 cursor-pointer">
                   Terms of Service
-                </a>
+                </div>
               </Link>
               <Link href="/legal">
-                <a className="text-neutral-100/60 text-sm hover:text-white transition-colors duration-200">
+                <div className="text-neutral-100/60 text-sm hover:text-white transition-colors duration-200 cursor-pointer">
                   Legal
-                </a>
+                </div>
               </Link>
             </div>
           </div>
