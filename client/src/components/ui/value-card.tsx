@@ -9,7 +9,7 @@ interface ValueCardProps {
 
 const ValueCard = ({ icon: Icon, title, description }: ValueCardProps) => {
   return (
-    <Card className="bg-neutral-100 rounded-lg p-6 text-center hover:shadow-md transition-shadow duration-200">
+    <Card className="value-card bg-neutral-100 rounded-lg p-6 text-center hover:shadow-md transition-shadow duration-200">
       <CardContent className="pt-6 p-0">
         <div className="w-16 h-16 mx-auto bg-primary/10 rounded-full flex items-center justify-center mb-4">
           <Icon className="h-8 w-8 text-primary" />

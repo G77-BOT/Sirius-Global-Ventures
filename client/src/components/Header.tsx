@@ -55,10 +55,8 @@ const Header = () => {
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center space-x-8">
-            <Link href="/">
-              <a className={`${isActive("/") ? "text-secondary" : "text-primary"} hover:text-secondary font-medium`}>
-                Home
-              </a>
+            <Link href="/" className={`${isActive("/") ? "text-secondary" : "text-primary"} hover:text-secondary font-medium`}>
+              Home
             </Link>
             
             {/* About Dropdown */}
@@ -68,14 +66,14 @@ const Header = () => {
                 <ChevronDown className="h-4 w-4 ml-1" />
               </button>
               <div className="dropdown-menu hidden absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2 z-10">
-                <Link href="/about">
-                  <a className="block px-4 py-2 text-sm text-primary hover:bg-neutral-100">Our Story</a>
+                <Link href="/about" className="block px-4 py-2 text-sm text-primary hover:bg-neutral-100">
+                  Our Story
                 </Link>
-                <Link href="/about/leadership">
-                  <a className="block px-4 py-2 text-sm text-primary hover:bg-neutral-100">Leadership</a>
+                <Link href="/about/leadership" className="block px-4 py-2 text-sm text-primary hover:bg-neutral-100">
+                  Leadership
                 </Link>
-                <Link href="/about/structure">
-                  <a className="block px-4 py-2 text-sm text-primary hover:bg-neutral-100">Corporate Structure</a>
+                <Link href="/about/structure" className="block px-4 py-2 text-sm text-primary hover:bg-neutral-100">
+                  Corporate Structure
                 </Link>
               </div>
             </div>
@@ -87,34 +85,24 @@ const Header = () => {
                 <ChevronDown className="h-4 w-4 ml-1" />
               </button>
               <div className="dropdown-menu hidden absolute left-0 mt-2 w-64 bg-white rounded-md shadow-lg py-2 z-10">
-                <Link href="/companies/bostream">
-                  <a className="block px-4 py-2 text-sm text-primary hover:bg-neutral-100 font-semibold">
-                    Bostream <span className="text-xs font-normal text-secondary">Crypto Trading</span>
-                  </a>
+                <Link href="/companies/bostream" className="block px-4 py-2 text-sm text-primary hover:bg-neutral-100 font-semibold">
+                  Bostream <span className="text-xs font-normal text-secondary">Crypto Trading</span>
                 </Link>
                 <span className="block px-4 py-2 text-sm text-neutral-300 hover:bg-neutral-100">Coming Soon</span>
               </div>
             </div>
             
-            <Link href="/investor-relations">
-              <a className={`${isActive("/investor-relations") ? "text-secondary" : "text-primary"} hover:text-secondary font-medium`}>
-                Investor Relations
-              </a>
+            <Link href="/investor-relations" className={`${isActive("/investor-relations") ? "text-secondary" : "text-primary"} hover:text-secondary font-medium`}>
+              Investor Relations
             </Link>
-            <Link href="/careers">
-              <a className={`${isActive("/careers") ? "text-secondary" : "text-primary"} hover:text-secondary font-medium`}>
-                Careers
-              </a>
+            <Link href="/careers" className={`${isActive("/careers") ? "text-secondary" : "text-primary"} hover:text-secondary font-medium`}>
+              Careers
             </Link>
-            <Link href="/news">
-              <a className={`${isActive("/news") ? "text-secondary" : "text-primary"} hover:text-secondary font-medium`}>
-                News
-              </a>
+            <Link href="/news" className={`${isActive("/news") ? "text-secondary" : "text-primary"} hover:text-secondary font-medium`}>
+              News
             </Link>
-            <Link href="/contact">
-              <a className={`${isActive("/contact") ? "text-secondary" : "text-primary"} hover:text-secondary font-medium`}>
-                Contact
-              </a>
+            <Link href="/contact" className={`${isActive("/contact") ? "text-secondary" : "text-primary"} hover:text-secondary font-medium`}>
+              Contact
             </Link>
           </nav>
         </div>
@@ -123,8 +111,8 @@ const Header = () => {
       {/* Mobile Navigation Menu */}
       <div className={`${isMenuOpen ? 'block' : 'hidden'} lg:hidden bg-white border-t border-neutral-100`}>
         <div className="container mx-auto px-4 py-3 space-y-3">
-          <Link href="/">
-            <a className="block py-2 text-primary font-medium">Home</a>
+          <Link href="/" className="block py-2 text-primary font-medium">
+            Home
           </Link>
           
           <div>
@@ -136,14 +124,14 @@ const Header = () => {
               <ChevronDown className={`h-4 w-4 transform ${aboutSubmenuOpen ? 'rotate-180' : 'rotate-0'} transition-transform`} />
             </button>
             <div className={`${aboutSubmenuOpen ? 'block' : 'hidden'} pl-4 space-y-2 mt-1`}>
-              <Link href="/about">
-                <a className="block py-1 text-sm text-primary">Our Story</a>
+              <Link href="/about" className="block py-1 text-sm text-primary">
+                Our Story
               </Link>
-              <Link href="/about/leadership">
-                <a className="block py-1 text-sm text-primary">Leadership</a>
+              <Link href="/about/leadership" className="block py-1 text-sm text-primary">
+                Leadership
               </Link>
-              <Link href="/about/structure">
-                <a className="block py-1 text-sm text-primary">Corporate Structure</a>
+              <Link href="/about/structure" className="block py-1 text-sm text-primary">
+                Corporate Structure
               </Link>
             </div>
           </div>
@@ -157,26 +145,24 @@ const Header = () => {
               <ChevronDown className={`h-4 w-4 transform ${companiesSubmenuOpen ? 'rotate-180' : 'rotate-0'} transition-transform`} />
             </button>
             <div className={`${companiesSubmenuOpen ? 'block' : 'hidden'} pl-4 space-y-2 mt-1`}>
-              <Link href="/companies/bostream">
-                <a className="block py-1 text-sm font-semibold text-primary">
-                  Bostream <span className="text-xs font-normal text-secondary">Crypto Trading</span>
-                </a>
+              <Link href="/companies/bostream" className="block py-1 text-sm font-semibold text-primary">
+                Bostream <span className="text-xs font-normal text-secondary">Crypto Trading</span>
               </Link>
               <span className="block py-1 text-sm text-neutral-300">Coming Soon</span>
             </div>
           </div>
           
-          <Link href="/investor-relations">
-            <a className="block py-2 text-primary font-medium">Investor Relations</a>
+          <Link href="/investor-relations" className="block py-2 text-primary font-medium">
+            Investor Relations
           </Link>
-          <Link href="/careers">
-            <a className="block py-2 text-primary font-medium">Careers</a>
+          <Link href="/careers" className="block py-2 text-primary font-medium">
+            Careers
           </Link>
-          <Link href="/news">
-            <a className="block py-2 text-primary font-medium">News</a>
+          <Link href="/news" className="block py-2 text-primary font-medium">
+            News
           </Link>
-          <Link href="/contact">
-            <a className="block py-2 text-primary font-medium">Contact</a>
+          <Link href="/contact" className="block py-2 text-primary font-medium">
+            Contact
           </Link>
         </div>
       </div>
