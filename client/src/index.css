@@ -1,0 +1,64 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 220 33% 98%;
+    --foreground: 210 29% 24%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 210 29% 24%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 210 29% 24%;
+
+    --primary: 210 29% 24%;
+    --primary-foreground: 0 0% 98%;
+
+    --secondary: 204 71% 53%;
+    --secondary-foreground: 0 0% 98%;
+
+    --muted: 220 14% 96%;
+    --muted-foreground: 220 8% 52%;
+
+    --accent: 6 78% 57%;
+    --accent-foreground: 0 0% 98%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 210 29% 24%;
+
+    --radius: 0.5rem;
+
+    --chart-1: 204 71% 53%;
+    --chart-2: 145 63% 49%;
+    --chart-3: 6 78% 57%;
+    --chart-4: 35 85% 65%;
+    --chart-5: 17 80% 60%;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased bg-background text-foreground;
+  }
+
+  .font-heading {
+    font-family: 'Roboto', sans-serif;
+  }
+
+  .font-body {
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  /* Dropdown menu hover effect */
+  .dropdown:hover .dropdown-menu {
+    display: block;
+  }
+}
