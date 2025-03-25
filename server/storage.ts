@@ -253,13 +253,13 @@ export class MemStorage implements IStorage {
       logoInitials: "BS",
       logoColor: "#3498DB",
       detailedDescription: "Bostream offers cutting-edge algorithmic trading solutions for cryptocurrencies, providing institutional-grade tools for high-frequency trading, portfolio management, and risk assessment.",
-      websiteUrl: "https://bostream.globalholdings.com"
+      websiteUrl: "https://bostream.ca"
     });
 
     // Add sample news
     this.createNews({
-      title: "Global Holdings Announces Bostream Acquisition",
-      content: "Global Holdings Ltd has officially announced the acquisition of Bostream, an innovative crypto trading platform specializing in high-frequency trading solutions.",
+      title: "Sirius Global Ventures Announces Bostream Acquisition",
+      content: "Sirius Global Ventures has officially announced the acquisition of Bostream, an innovative crypto trading platform specializing in high-frequency trading solutions.",
       category: "Company News",
       publishDate: new Date("2023-10-15"),
       subsidiaryId: null
@@ -274,8 +274,8 @@ export class MemStorage implements IStorage {
     });
 
     this.createNews({
-      title: "Global Holdings Announces Expansion Strategy",
-      content: "Global Holdings Ltd reveals its strategic expansion plans for 2024, focusing on fintech, blockchain, and sustainable technology investments.",
+      title: "Sirius Global Ventures Announces Expansion Strategy",
+      content: "Sirius Global Ventures reveals its strategic expansion plans for 2024, focusing on fintech, blockchain, and sustainable technology investments.",
       category: "Investor Relations",
       publishDate: new Date("2023-10-25"),
       subsidiaryId: null
@@ -387,7 +387,7 @@ export class MemStorage implements IStorage {
 
     this.createJobPosting({
       title: "Marketing Manager",
-      description: "Lead marketing efforts for Global Holdings and coordinate with subsidiary marketing teams.",
+      description: "Lead marketing efforts for Sirius Global Ventures and coordinate with subsidiary marketing teams.",
       location: "New York, NY",
       department: "Marketing",
       type: "Full-time",
