@@ -11,15 +11,15 @@ const Footer = () => {
           <div>
             <div className="flex items-center space-x-2 mb-6">
               <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center">
-                <span className="text-primary font-bold text-lg">GH</span>
+                <span className="text-primary font-bold text-lg">SGV</span>
               </div>
               <div>
-                <div className="font-heading font-bold text-xl text-white">Global Holdings</div>
+                <div className="font-heading font-bold text-xl text-white">Sirius Global Ventures</div>
                 <div className="text-xs text-white/50">Corporate Excellence</div>
               </div>
             </div>
             <p className="text-neutral-100/80 mb-6">
-              Global Holdings Ltd is a diversified holding company investing in innovative businesses across multiple sectors.
+              Sirius Global Ventures is a diversified holding company investing in innovative businesses across multiple sectors.
             </p>
             <div className="flex space-x-4">
               <a 
@@ -107,10 +107,10 @@ const Footer = () => {
               <li className="flex items-center">
                 <Mail className="h-5 w-5 text-neutral-100/60 mr-3" />
                 <a 
-                  href="mailto:info@globalholdings.com" 
+                  href="mailto:info@siriusglobalventures.com" 
                   className="text-neutral-100/80 hover:text-white transition-colors duration-200"
                 >
-                  info@globalholdings.com
+                  info@siriusglobalventures.com
                 </a>
               </li>
             </ul>
@@ -120,7 +120,7 @@ const Footer = () => {
         <div className="border-t border-white/10 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="text-neutral-100/60 text-sm mb-4 md:mb-0">
-              &copy; {currentYear} Global Holdings Ltd. All rights reserved.
+              &copy; {currentYear} Sirius Global Ventures. All rights reserved.
             </div>
             <div className="flex space-x-6">
               <Link href="/privacy-policy">

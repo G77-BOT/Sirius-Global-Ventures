@@ -31,10 +31,10 @@ const Header = () => {
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2">
             <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-lg">GH</span>
+              <span className="text-white font-bold text-lg">SGV</span>
             </div>
             <div>
-              <div className="font-heading font-bold text-xl text-primary">Global Holdings</div>
+              <div className="font-heading font-bold text-xl text-primary">Sirius Global Ventures</div>
               <div className="text-xs text-neutral-300">Corporate Excellence</div>
             </div>
           </Link>
