@@ -17,12 +17,12 @@ const defaultItems: ContactInfoItem[] = [
     content: (
       <>
         <p className="text-neutral-400 mb-2">For general inquiries:</p>
-        <a href="mailto:info@globalholdings.com" className="text-secondary hover:text-secondary-dark">
-          info@globalholdings.com
+        <a href="mailto:febzali@gmail.com" className="text-secondary hover:text-secondary-dark">
+          febzali@gmail.com
         </a>
         <p className="text-neutral-400 mt-2 mb-2">For investor relations:</p>
-        <a href="mailto:investors@globalholdings.com" className="text-secondary hover:text-secondary-dark">
-          investors@globalholdings.com
+        <a href="mailto:febzali@gmail.com" className="text-secondary hover:text-secondary-dark">
+          febzali@gmail.com
         </a>
       </>
     )
@@ -46,10 +46,10 @@ const defaultItems: ContactInfoItem[] = [
       <>
         <p className="text-neutral-400 mb-2">Headquarters:</p>
         <p className="text-neutral-500">
-          123 Corporate Drive<br />
-          Suite 500<br />
-          New York, NY 10001<br />
-          United States
+          456 Innovation Blvd<br />
+          Suite 300<br />
+          Ottawa, Ontario K1A 0A9<br />
+          Canada
         </p>
       </>
     )

@@ -96,12 +96,12 @@ const Contact = () => {
                 </div>
               </div>
               <div className="p-6">
-                <h3 className="font-heading font-bold text-xl text-primary mb-2">New York</h3>
+                <h3 className="font-heading font-bold text-xl text-primary mb-2">Ottawa</h3>
                 <p className="text-neutral-400 text-sm mb-4">
-                  123 Corporate Drive<br />
-                  Suite 500<br />
-                  New York, NY 10001<br />
-                  United States
+                  456 Innovation Blvd<br />
+                  Suite 300<br />
+                  Ottawa, Ontario K1A 0A9<br />
+                  Canada
                 </p>
                 <div className="space-y-2">
                   <div className="flex items-center">
@@ -110,7 +110,7 @@ const Contact = () => {
                   </div>
                   <div className="flex items-center">
                     <Mail className="h-4 w-4 text-secondary mr-2" />
-                    <span className="text-neutral-500">newyork@globalholdings.com</span>
+                    <span className="text-neutral-500">febzali@gmail.com</span>
                   </div>
                 </div>
               </div>
@@ -189,9 +189,9 @@ const Contact = () => {
             
             <div className="space-y-6">
               <div className="bg-neutral-100 rounded-lg p-6">
-                <h3 className="font-heading font-bold text-xl text-primary mb-2">How can I invest in Global Holdings?</h3>
+                <h3 className="font-heading font-bold text-xl text-primary mb-2">How can I invest in Sirius Global Ventures?</h3>
                 <p className="text-neutral-500">
-                  Global Holdings offers various investment opportunities for qualified investors. Please contact our Investor Relations team through the form above or by emailing investors@globalholdings.com for more information.
+                  Sirius Global Ventures offers various investment opportunities for qualified investors. Please contact our Investor Relations team through the form above or by emailing febzali@gmail.com for more information.
                 </p>
               </div>
               
