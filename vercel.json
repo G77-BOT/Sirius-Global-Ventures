@@ -11,5 +11,7 @@
       "src": "/(.*)",
       "dest": "/"
     }
-  ]
+  ],
+  "buildCommand": "npm run vercel-build",
+  "outputDirectory": ".next"
 }

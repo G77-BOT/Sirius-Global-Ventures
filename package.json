@@ -17,7 +17,7 @@
     "start": "next start",
     "lint": "next lint",
     "check": "tsc --noEmit",
-    "vercel-build": "next build"
+    "vercel-build": "node vercel-build.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
