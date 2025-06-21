@@ -56,15 +56,33 @@ app.use((req, res, next) => {
     serveStatic(app);
   }
 
-  // ALWAYS serve the app on port 5000
+  // Serve the app on port 5001 (changed from 5000 due to port conflict)
   // this serves both the API and the client.
-  // It is the only port that is not firewalled.
-  const port = 5000;
-  server.listen({
-    port,
-    host: "0.0.0.0",
-    reusePort: true,
-  }, () => {
-    log(`serving on port ${port}`);
+  const port = 5001;
+  const host = '127.0.0.1'; // Use localhost instead of 0.0.0.0
+  
+  server.listen(port, host, () => {
+    log(`Server running at http://${host}:${port}`);
+  });
+  
+  // Handle server errors
+  server.on('error', (error: NodeJS.ErrnoException) => {
+    if (error.syscall !== 'listen') {
+      throw error;
+    }
+
+    // Handle specific listen errors with friendly messages
+    switch (error.code) {
+      case 'EACCES':
+        console.error(`Port ${port} requires elevated privileges`);
+        process.exit(1);
+        break;
+      case 'EADDRINUSE':
+        console.error(`Port ${port} is already in use`);
+        process.exit(1);
+        break;
+      default:
+        throw error;
+    }
   });
 })();

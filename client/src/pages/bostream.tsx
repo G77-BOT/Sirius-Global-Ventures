@@ -3,6 +3,7 @@ import { Link } from "wouter";
 import { BarChart2, BarChart, Lock, Settings, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import FeatureCard from "@/components/ui/feature-card";
+import { JSXElementConstructor, Key, ReactElement, ReactNode, ReactPortal } from "react";
 
 // Map of icons by name
 const iconMap = {
@@ -92,7 +93,7 @@ const Bostream = () => {
                     ))
                   ) : (
                     // Actual stats
-                    stats.map((stat, index) => (
+                    stats.map((stat: { value: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | null | undefined; label: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | null | undefined; }, index: Key | null | undefined) => (
                       <div key={index} className="bg-white/5 p-4 rounded-md text-center">
                         <div className="text-white font-bold text-xl">{stat.value}</div>
                         <div className="text-white/70 text-xs">{stat.label}</div>
@@ -158,7 +159,7 @@ const Bostream = () => {
                     ))
                   ) : (
                     // Actual features
-                    features.map((feature) => {
+                    features.map((feature: { iconName: string; id: Key | null | undefined; title: string; description: string; }) => {
                       // Get the appropriate icon, defaulting to BarChart2 if not found
                       const IconComponent = iconMap[feature.iconName as keyof typeof iconMap] || BarChart2;
                       
