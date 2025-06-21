@@ -1,3 +1,4 @@
+// @ts-check
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
@@ -10,7 +11,9 @@ const nextConfig = {
   },
   output: 'standalone',
   experimental: {
-    serverActions: true,
+    serverActions: {
+      bodySizeLimit: '2mb'
+    },
   },
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
@@ -55,4 +58,5 @@ const nextConfig = {
   },
 };
 
-export default nextConfig;
+// Use CommonJS module.exports for Next.js compatibility
+module.exports = nextConfig;
