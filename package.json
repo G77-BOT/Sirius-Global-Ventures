@@ -1,7 +1,7 @@
 {
   "name": "sirius-global-ventures",
   "version": "1.0.0",
-  "type": "commonjs",
+  "type": "module",
   "resolutions": {
     "esbuild": "^0.25.5",
     "path-to-regexp": "^6.2.1"
