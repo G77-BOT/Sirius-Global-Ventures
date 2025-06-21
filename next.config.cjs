@@ -1,5 +1,4 @@
 // @ts-check
-/** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
@@ -59,4 +58,5 @@ const nextConfig = {
 };
 
 // Use CommonJS module.exports for Next.js compatibility
+// Use CommonJS export
 module.exports = nextConfig;
