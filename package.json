@@ -7,9 +7,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "check": "tsc",
-    "vercel-build": "next build",
-    "vercel-dev": "next dev"
+    "lint": "next lint",
+    "check": "tsc --noEmit",
+    "vercel-build": "next build"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
@@ -96,7 +96,7 @@
     "@vitejs/plugin-react": "^4.3.2",
     "autoprefixer": "^10.4.21",
     "drizzle-kit": "^0.31.1",
-    "esbuild": "^0.25.0",
+    "esbuild": "^0.20.0",
     "postcss": "^8.5.6",
     "tailwindcss": "^3.4.17",
     "tsx": "^4.19.1",

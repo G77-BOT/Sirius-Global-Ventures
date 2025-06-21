@@ -3,37 +3,38 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   images: {
-    domains: ['localhost'],
-    unoptimized: true, // Required for static exports
+    domains: ['*'],
+    minimumCacheTTL: 60,
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
   },
-  // Enable static exports for Vercel
-  output: 'export',
-  // Add a trailing slash to all paths
-  trailingSlash: true,
-  // Disable the default static exports behavior
-  skipTrailingSlashRedirect: true,
-  // Disable the default static exports behavior for API routes
-  skipApiRouteExport: true,
-  // Disable the default static exports behavior for pages
-  skipPageExport: true,
-  // Disable the default static exports behavior for dynamic routes
-  skipDynamicRouteExport: true,
-  // Disable the default static exports behavior for static pages
-  skipStaticPageExport: true,
-  // Enable server actions (if needed)
+  output: 'standalone',
   experimental: {
     serverActions: true,
   },
-  // Configure webpack
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production',
+  },
+  poweredByHeader: false,
+  generateBuildId: async () => 'build',
+  compress: true,
   webpack: (config, { isServer }) => {
-    // Important: return the modified config
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        net: false,
+        tls: false,
+        dns: false,
+        child_process: false,
+        dgram: false,
+      };
+    }
     return config;
   },
-  // Configure headers
   async headers() {
     return [
       {
-        // Apply these headers to all routes
         source: '/(.*)',
         headers: [
           {
