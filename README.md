@@ -1,4 +1,4 @@
-# CryptoBostream
+# Sirius Global Ventures
 
 A modern crypto streaming platform built with Next.js, TypeScript, and Tailwind CSS.
 
@@ -19,8 +19,8 @@ A modern crypto streaming platform built with Next.js, TypeScript, and Tailwind 
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/cryptobostream.git
-   cd cryptobostream
+   git clone https://github.com/G77-BOT/Sirius-Global-Ventures.git
+   cd Sirius-Global-Ventures
    ```
 
 2. **Install dependencies**
