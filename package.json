@@ -2,6 +2,14 @@
   "name": "sirius-global-ventures",
   "version": "1.0.0",
   "type": "commonjs",
+  "resolutions": {
+    "esbuild": "^0.25.5",
+    "path-to-regexp": "^6.2.1"
+  },
+  "overrides": {
+    "esbuild": "^0.25.5",
+    "path-to-regexp": "^6.2.1"
+  },
   "license": "MIT",
   "scripts": {
     "dev": "next dev",
@@ -95,7 +103,7 @@
     "@types/ws": "^8.5.13",
     "@vitejs/plugin-react": "^4.3.2",
     "autoprefixer": "^10.4.21",
-    "drizzle-kit": "^0.31.1",
+    "drizzle-kit": "^0.20.14",
     "esbuild": "^0.25.5",
     "postcss": "^8.5.6",
     "tailwindcss": "^3.4.17",
