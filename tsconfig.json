@@ -1,5 +1,8 @@
 {
   "compilerOptions": {
+    "jsx": "preserve",
+    "jsxImportSource": "react",
+    "types": ["node", "react", "react-dom"],
     "target": "es5",
     "lib": [
       "dom",
@@ -16,7 +19,6 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve",
     "incremental": true,
     "baseUrl": ".",
     "paths": {
