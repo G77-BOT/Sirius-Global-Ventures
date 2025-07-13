@@ -148,7 +148,7 @@ export default function Home() {
                   </div>
                   <div>
                     <h4 className="text-2xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors">
-                      Bostream
+                      Botstream
                     </h4>
                     <p className="text-blue-600 font-medium">Crypto Trading Platform</p>
                   </div>
