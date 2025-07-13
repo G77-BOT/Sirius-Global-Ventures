@@ -113,14 +113,14 @@ BotStream is our primary development focus - an AI-powered trading platform offe
 
 ## Leadership
 
-- **Mahmoud Abdolaziz** - Founder, CEO, and Creator of BotStream and Sirius Global Ventures Holding
+- **Mohamud Abdiaziz Mohamed** - Founder, CEO, and Creator of BotStream and Sirius Global Ventures Holding
 - **Joseph Jackson** - Vice President, who coined the name "Sirius Global Ventures"
 
 ## License
 
-All code, content, and intellectual property related to Sirius Global Ventures Holding and the BotStream platform are exclusively owned by Mahmoud Abdolaziz as the founder, creator, and CEO. Joseph Jackson is VP Sirius Global Ventures and recognized as a key member of the global holding company.
+All code, content, and intellectual property related to Sirius Global Ventures Holding and the BotStream platform are exclusively owned by Mohamud Abdiaziz Mohamed as the founder, creator, and CEO. Joseph Jackson is VP Sirius Global Ventures and recognized as a key member of the global holding company.
 
-The proprietary license for this project prohibits unauthorized reproduction, distribution, or modification without explicit written permission from Mahmoud Abdolaziz. Terms of ownership and roles within the company are subject to exclusive contracts between Mahmoud Abdolaziz and Joseph Jackson.
+The proprietary license for this project prohibits unauthorized reproduction, distribution, or modification without explicit written permission fromMohamud Abdiaziz Mohamed. Terms of ownership and roles within the company are subject to exclusive contracts between Mohamud Abdiaziz Mohamed and Joseph Jackson.
 
 © 2024 Sirius Global Ventures Holding. All Rights Reserved.
 
