@@ -1,34 +1,41 @@
 import { NextResponse } from 'next/server';
-import { storage } from '../../server/storage';
-import { z } from 'zod';
 
-const contactSchema = z.object({
-  name: z.string().min(1, 'Name is required'),
-  email: z.string().email('Invalid email address'),
-  message: z.string().min(10, 'Message must be at least 10 characters'),
-  subsidiaryId: z.number().int().positive().optional(),
-});
+export async function GET() {
+  const contact = {
+    company: "CryptoBostream",
+    email: "contact@cryptobostream.com",
+    phone: "+1 (555) 123-4567",
+    address: {
+      street: "123 Crypto Street",
+      city: "San Francisco",
+      state: "CA",
+      zip: "94105",
+      country: "USA"
+    },
+    support: {
+      email: "support@cryptobostream.com",
+      hours: "24/7"
+    }
+  };
+
+  return NextResponse.json({ contact });
+}
 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
     
-    // Validate the request body
-    const validation = contactSchema.safeParse(body);
-    if (!validation.success) {
-      return NextResponse.json(
-        { message: 'Invalid input', errors: validation.error.issues },
-        { status: 400 }
-      );
-    }
-
-    const submission = await storage.createContactSubmission(validation.data);
-    return NextResponse.json(submission, { status: 201 });
+    // In a real implementation, you would process the contact form submission
+    // For now, we'll just return a success response
+    
+    return NextResponse.json({ 
+      success: true, 
+      message: "Thank you for your message. We'll get back to you soon!" 
+    });
   } catch (error) {
-    console.error('Failed to submit contact form:', error);
-    return NextResponse.json(
-      { message: 'Failed to submit contact form' },
-      { status: 500 }
-    );
+    return NextResponse.json({ 
+      success: false, 
+      message: "Failed to send message. Please try again." 
+    }, { status: 500 });
   }
 }

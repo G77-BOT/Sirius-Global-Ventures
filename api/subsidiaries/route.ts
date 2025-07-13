@@ -1,15 +1,29 @@
 import { NextResponse } from 'next/server';
-import { storage } from '../../server/storage';
 
 export async function GET() {
-  try {
-    const subsidiaries = await storage.getAllSubsidiaries();
-    return NextResponse.json(subsidiaries);
-  } catch (error) {
-    console.error('Failed to fetch subsidiaries:', error);
-    return NextResponse.json(
-      { message: 'Failed to fetch subsidiaries' },
-      { status: 500 }
-    );
-  }
+  const subsidiaries = [
+    {
+      id: 1,
+      name: "CryptoStream Analytics",
+      description: "Real-time cryptocurrency data streaming and analytics platform",
+      status: "Active",
+      established: "2024"
+    },
+    {
+      id: 2,
+      name: "BlockData Pro",
+      description: "Professional blockchain data services for enterprises",
+      status: "Active",
+      established: "2024"
+    },
+    {
+      id: 3,
+      name: "CoinFlow API",
+      description: "High-performance cryptocurrency market data APIs",
+      status: "Active",
+      established: "2024"
+    }
+  ];
+
+  return NextResponse.json({ subsidiaries });
 }

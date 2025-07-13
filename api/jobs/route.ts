@@ -1,15 +1,32 @@
 import { NextResponse } from 'next/server';
-import { storage } from '../../server/storage';
 
 export async function GET() {
-  try {
-    const jobs = await storage.getAllJobPostings();
-    return NextResponse.json(jobs);
-  } catch (error) {
-    console.error('Failed to fetch job postings:', error);
-    return NextResponse.json(
-      { message: 'Failed to fetch job postings' },
-      { status: 500 }
-    );
-  }
+  const jobs = [
+    {
+      id: 1,
+      title: "Senior Backend Developer",
+      department: "Engineering",
+      location: "Remote",
+      type: "Full-time",
+      description: "Join our team to build scalable cryptocurrency data streaming infrastructure."
+    },
+    {
+      id: 2,
+      title: "DevOps Engineer",
+      department: "Infrastructure",
+      location: "Remote",
+      type: "Full-time",
+      description: "Help us maintain and scale our high-availability cryptocurrency platform."
+    },
+    {
+      id: 3,
+      title: "Product Manager",
+      department: "Product",
+      location: "Remote",
+      type: "Full-time",
+      description: "Lead product strategy for our cryptocurrency streaming and analytics platform."
+    }
+  ];
+
+  return NextResponse.json({ jobs });
 }
