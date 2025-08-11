@@ -69,7 +69,7 @@ export default function LeadershipPage() {
       name: "Margaret Ajibola",
       position: "Head of Frontend Development",
       company: "BotStream",
-      bio: "Margaret Ajibola serves as Head of the Frontend Department, which is the right role for her. Over the past weeks, her ambition and dedication have shone through in the project and for us both. She is an inspiration to us and hopefully will be for many years to come. Her work and contributions to BotStream have not gone unnoticed and will continue to be recognized.",
+      bio: "Margaret Ajibola’s role as Head of the Frontend Department is well-suited to her skills and aspirations. Her unwavering ambition and dedication have been evident in her contributions to the project, benefiting both herself and the organization. Her exemplary work and contributions to BotStream have not gone unnoticed and will continue to be recognized and appreciated.",
       expertise: [
         "Node.js Development",
         "Next.js Framework",
