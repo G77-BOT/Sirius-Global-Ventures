@@ -1,5 +1,6 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
+import sanitizeHtml from "sanitize-html";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -174,7 +175,8 @@ export function deepMerge<T extends Record<string, any>>(target: T, source: Part
 
 // Extract text from HTML
 export function stripHtml(html: string): string {
-  return html.replace(/<[^>]*>/g, '');
+  // Remove all HTML tags and return only text content using sanitize-html
+  return sanitizeHtml(html, { allowedTags: [], allowedAttributes: {} });
 }
 
 // Sleep utility for async operations
