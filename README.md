@@ -23,58 +23,8 @@ BotStream is our primary development focus - an AI-powered trading platform offe
 - Node.js 18+ and npm
 - Vercel account (for deployment)
 
-## Getting Started
-
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/G77-BOT/Sirius-Global-Ventures.git
-   cd Sirius-Global-Ventures
-   ```
-
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
-
-3. **Environment Variables**
-   Create a `.env.local` file in the root directory and add your environment variables:
-   ```
-   # Database
-   DATABASE_URL=your_database_url_here
-   
-   # Authentication
-   NEXTAUTH_SECRET=your_nextauth_secret_here
-   NEXTAUTH_URL=http://localhost:3000
-   ```
-
-4. **Run the development server**
-   ```bash
-   npm run dev
-   ```
-   Open [http://localhost:3000](http://localhost:3000) in your browser.
-
-## Deployment
-
-### Vercel
-
-1. Push your code to a GitHub, GitLab, or Bitbucket repository.
-2. Import the repository to Vercel:
-   - Go to [Vercel](https://vercel.com/new)
-   - Click "Import Project"
-   - Select your repository
-   - Vercel will automatically detect the Next.js project
-   - Click "Deploy"
-
-3. Configure environment variables in the Vercel dashboard:
-   - Go to your project in Vercel
-   - Navigate to Settings > Environment Variables
-   - Add the same variables from your `.env.local` file
-
-4. Your site will be deployed and you'll receive a URL like `https://your-project.vercel.app`
-
 ## Project Structure
 
-```
 /
 ├── app/                    # App Router
 │   ├── api/                # API routes
@@ -90,11 +40,11 @@ BotStream is our primary development focus - an AI-powered trading platform offe
 ├── next.config.js          # Next.js config
 ├── package.json            # Project dependencies
 └── README.md              # This file
-```
 
 ## Technology Stack
 
 ### Website Development
+
 - [Next.js](https://nextjs.org/) - React framework for server-rendered applications
 - [TypeScript](https://www.typescriptlang.org/) - Type-safe JavaScript
 - [Tailwind CSS](https://tailwindcss.com/) - Utility-first CSS framework
@@ -102,7 +52,8 @@ BotStream is our primary development focus - an AI-powered trading platform offe
 - [NextAuth.js](https://next-auth.js.org/) - Authentication solution
 - [Vercel](https://vercel.com/) - Deployment and hosting platform
 
-### BotStream Platform
+BotStream Platform
+
 - [Node.js](https://nodejs.org/) - Backend runtime environment
 - [WebSocket](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API) - Real-time data streaming
 - [TensorFlow.js](https://www.tensorflow.org/js) - Machine learning library

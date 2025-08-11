@@ -9,6 +9,10 @@
 # Next.js
 /.next/
 /out/
+.next/
+# Build output
+/build/
+
 
 # Production
 /build
@@ -24,6 +28,8 @@ yarn-error.log*
 
 # Environment variables
 .env*.local
+.env.exa
+
 
 # Vercel
 .vercel
@@ -41,6 +47,7 @@ Thumbs.db
 .env.development.local
 .env.test.local
 .env.production.local
+.env.example
 
 # Build output
 .next/

@@ -4,42 +4,7 @@ import { ArrowRight, TrendingUp, Shield, Globe, ChevronRight, ExternalLink } fro
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
-      {/* Header */}
-      <header className="bg-white/95 backdrop-blur-sm shadow-lg border-b border-blue-100 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              <div className="w-12 h-12 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center">
-                <span className="text-white font-bold text-lg">SGV</span>
-              </div>
-              <div>
-                <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-                  Sirius Global Ventures
-                </h1>
-                <p className="text-xs text-gray-500">Corporate Excellence</p>
-              </div>
-            </div>
-            <nav className="hidden md:flex space-x-8">
-              <Link href="#about" className="text-gray-600 hover:text-blue-600 font-medium transition-colors">
-                About
-              </Link>
-              <Link href="#companies" className="text-gray-600 hover:text-blue-600 font-medium transition-colors">
-                Our Companies
-              </Link>
-              <Link href="#news" className="text-gray-600 hover:text-blue-600 font-medium transition-colors">
-                News
-              </Link>
-              <Link href="/admin/news" className="text-gray-600 hover:text-blue-600 font-medium transition-colors">
-                Admin
-              </Link>
-              <Link href="#contact" className="text-gray-600 hover:text-blue-600 font-medium transition-colors">
-                Contact
-              </Link>
-            </nav>
-          </div>
-        </div>
-      </header>
+    <div className="bg-gradient-to-br from-slate-50 to-blue-50 dark:from-gray-900 dark:to-gray-800">
       
       {/* Hero Section */}
       <section className="relative overflow-hidden pt-16 pb-20">
@@ -313,50 +278,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="bg-gray-900 text-white py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div className="col-span-1 md:col-span-2">
-              <div className="flex items-center space-x-3 mb-6">
-                <div className="w-12 h-12 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center">
-                  <span className="text-white font-bold text-lg">SGV</span>
-                </div>
-                <div>
-                  <h3 className="text-xl font-bold">Sirius Global Ventures</h3>
-                  <p className="text-sm text-gray-400">Corporate Excellence</p>
-                </div>
-              </div>
-              <p className="text-gray-400 mb-6 max-w-md">
-                Building tomorrow's leaders through strategic investments and innovative partnerships.
-              </p>
-            </div>
-            
-            <div>
-              <h4 className="text-lg font-semibold mb-4">Company</h4>
-              <ul className="space-y-2 text-gray-400">
-                <li><Link href="#about" className="hover:text-white transition-colors">About</Link></li>
-                <li><Link href="#companies" className="hover:text-white transition-colors">Portfolio</Link></li>
-                <li><Link href="/careers" className="hover:text-white transition-colors">Careers</Link></li>
-                <li><Link href="#contact" className="hover:text-white transition-colors">Contact</Link></li>
-              </ul>
-            </div>
-            
-            <div>
-              <h4 className="text-lg font-semibold mb-4">Portfolio</h4>
-              <ul className="space-y-2 text-gray-400">
-                <li><a href="https://bostream.ca" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Bostream</a></li>
-                <li><Link href="#news" className="hover:text-white transition-colors">News</Link></li>
-                <li><Link href="/investor-relations" className="hover:text-white transition-colors">Investors</Link></li>
-              </ul>
-            </div>
-          </div>
-          
-          <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
-            <p>&copy; 2024 Sirius Global Ventures. All rights reserved.</p>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }
