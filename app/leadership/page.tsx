@@ -37,7 +37,7 @@ export default function LeadershipPage() {
     {
       id: 2,
       name: "Joseph Jackson",
-      position: "Vice President",
+      position: "Co-Founder & Vice President",
       company: "Sirius Global Ventures",
       bio: "Joseph Jackson serves as Vice President of Sirius Global Ventures and is credited with coining the name 'Sirius Global Ventures.' As a key member of the global holding company, he brings strategic insight and operational excellence to the organization's diverse portfolio of investments.",
       expertise: [
@@ -81,7 +81,7 @@ export default function LeadershipPage() {
       achievements: [
         "Joined the BotStream project two months ago and has been improving continuously",
         "Specializes in frontend development with robust infrastructure improvements",
-        "Graduated from web app development boot camp in 2021",
+        "Graduated from web app development boot camp in 2024",
         "Pioneer in her field and one of the best frontend developers",
         "Over 3.5 years of experience with continuous growth and learning",
         "Contributed to making BotStream's frontend more advanced and robust"
