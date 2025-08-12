@@ -152,7 +152,7 @@ export default function DisclaimerPage() {
 
                 <h3 className="text-xl font-semibold text-gray-900 mb-3">SEC Registration</h3>
                 <p className="text-gray-700 mb-6">
-                  Sirius Global Ventures is a registered investment adviser with the U.S. Securities 
+                  Sirius Global Ventures will be a registered investment adviser with the U.S. Securities 
                   and Exchange Commission (SEC). Registration does not imply a certain level of skill 
                   or training or endorsement by the SEC.
                 </p>
