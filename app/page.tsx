@@ -284,3 +284,6 @@ export default function Home() {
               <ARButton variant="ghost" size="lg" glowColor="#ffffff">
                 Neural Investor Interface
               </ARButton>
+
+  )
+}
