@@ -253,8 +253,12 @@ export default function Home() {
 
           <div className="text-center">
             <Link
+              href="/news"
+            >
               <ARButton variant="secondary" size="md">
                 <span className="flex items-center">
+                  View All Neural Updates
+                  <ArrowRight className="ml-2 w-4 h-4" />
                 </span>
               </ARButton>
             </Link>
@@ -272,18 +276,23 @@ export default function Home() {
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <Link
+              href="/investor-relations"
+            >
               <ARButton variant="primary" size="lg" glowColor="#ffffff">
                 Initialize Contact Protocol
               </ARButton>
-              href="/investor-relations"
-              className="inline-flex items-center px-8 py-4 border-2 border-white text-white font-medium rounded-xl hover:bg-white/10 transition-colors"
-            >
-              Investor Relations
             </Link>
           </div>
+            <Link
+              href="/contact"
+            >
               <ARButton variant="ghost" size="lg" glowColor="#ffffff">
                 Neural Investor Interface
               </ARButton>
-
-  )
+            </Link>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
 }
