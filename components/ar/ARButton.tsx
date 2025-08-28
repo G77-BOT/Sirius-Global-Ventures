@@ -39,29 +39,29 @@ export default function ARButton({
   };
 
   const buttonVariants = {
-    initial: { 
-      scale: 1,
-      boxShadow: `0 4px 20px ${glowColor}20`
+  initial: {
+    scale: 1,
+    boxShadow: "0 2px 8px #3b82f630",
+  },
+  hover: {
+    scale: 1.05,
+    boxShadow: "0 4px 24px #3b82f6cc",
+    transition: {
+      type: "spring",
+      stiffness: 300,
+      damping: 20,
     },
-    hover: {
-      scale: 1.05,
-      boxShadow: `0 8px 40px ${glowColor}40`,
-      transition: {
-        type: "spring",
-        stiffness: 400,
-        damping: 10
-      }
+  },
+  tap: {
+    scale: 0.98,
+    boxShadow: "0 2px 4px #3b82f650",
+    transition: {
+      type: "spring",
+      stiffness: 500,
+      damping: 35,
     },
-    tap: {
-      scale: 0.95,
-      transition: {
-        type: "spring",
-        stiffness: 400,
-        damping: 10
-      }
-    }
-  };
-
+  },
+};
   return (
     <motion.button
       className={`${baseClasses} ${variantClasses[variant]} ${sizeClasses[size]} ${className} ${
