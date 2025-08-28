@@ -282,7 +282,6 @@ export default function Home() {
                 Initialize Contact Protocol
               </ARButton>
             </Link>
-          </div>
             <Link
               href="/contact"
             >
@@ -291,7 +290,6 @@ export default function Home() {
               </ARButton>
             </Link>
           </div>
-        </div>
       </section>
     </div>
   );
