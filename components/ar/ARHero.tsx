@@ -132,7 +132,7 @@ export default function ARHero({
             <span className="w-2 h-2 bg-blue-400 rounded-full mr-2 animate-pulse" />
             {subtitle}
           </span>
-        </div>
+        </motion.div>
 
         <motion.h1 
           variants={itemVariants}
