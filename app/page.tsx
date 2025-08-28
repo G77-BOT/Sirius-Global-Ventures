@@ -290,6 +290,7 @@ export default function Home() {
               </ARButton>
             </Link>
           </div>
+          </div>
       </section>
     </div>
   );
