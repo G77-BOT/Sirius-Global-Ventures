@@ -116,3 +116,233 @@ html {
 .shadow-glow-green {
   box-shadow: 0 0 20px rgba(34, 197, 94, 0.3);
 }
+
+/* AR Theme Enhancements */
+.ar-grid-bg {
+  background-image: 
+    linear-gradient(rgba(59, 130, 246, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(59, 130, 246, 0.1) 1px, transparent 1px);
+  background-size: 50px 50px;
+  animation: ar-grid-move 20s linear infinite;
+}
+
+@keyframes ar-grid-move {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(50px, 50px); }
+}
+
+/* AR Holographic Effects */
+.ar-holographic {
+  background: linear-gradient(45deg, 
+    rgba(59, 130, 246, 0.3), 
+    transparent, 
+    rgba(99, 102, 241, 0.3)
+  );
+  background-size: 200% 200%;
+  animation: ar-holographic 3s ease-in-out infinite;
+}
+
+@keyframes ar-holographic {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* AR Scan Line Animation */
+.ar-scan-line {
+  position: relative;
+  overflow: hidden;
+}
+
+.ar-scan-line::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(59, 130, 246, 0.8), 
+    transparent
+  );
+  animation: ar-scan 3s ease-in-out infinite;
+}
+
+@keyframes ar-scan {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+
+/* AR Glow Pulse */
+.ar-glow-pulse {
+  animation: ar-glow-pulse 2s ease-in-out infinite;
+}
+
+@keyframes ar-glow-pulse {
+  0%, 100% { 
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+    transform: scale(1);
+  }
+  50% { 
+    box-shadow: 0 0 40px rgba(59, 130, 246, 0.6);
+    transform: scale(1.02);
+  }
+}
+
+/* AR Neural Network Lines */
+.ar-neural-bg {
+  background-image: 
+    radial-gradient(circle at 25% 25%, rgba(59, 130, 246, 0.1) 2px, transparent 2px),
+    radial-gradient(circle at 75% 75%, rgba(99, 102, 241, 0.1) 2px, transparent 2px);
+  background-size: 100px 100px;
+  animation: ar-neural-pulse 4s ease-in-out infinite;
+}
+
+@keyframes ar-neural-pulse {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.7; }
+}
+
+/* AR Data Stream */
+.ar-data-stream {
+  position: relative;
+  overflow: hidden;
+}
+
+.ar-data-stream::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: -10px;
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(180deg, 
+    transparent, 
+    rgba(59, 130, 246, 0.8), 
+    transparent
+  );
+  animation: ar-data-flow 2s linear infinite;
+}
+
+@keyframes ar-data-flow {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+
+/* AR Quantum Particles */
+.ar-quantum-particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.8), transparent);
+  border-radius: 50%;
+  animation: ar-quantum-float 6s ease-in-out infinite;
+}
+
+@keyframes ar-quantum-float {
+  0%, 100% { 
+    transform: translateY(0) rotate(0deg);
+    opacity: 0.3;
+  }
+  50% { 
+    transform: translateY(-20px) rotate(180deg);
+    opacity: 1;
+  }
+}
+
+/* AR Interface Corners */
+.ar-corners {
+  position: relative;
+}
+
+.ar-corners::before,
+.ar-corners::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(59, 130, 246, 0.4);
+}
+
+.ar-corners::before {
+  top: 8px;
+  left: 8px;
+  border-right: none;
+  border-bottom: none;
+  border-radius: 8px 0 0 0;
+}
+
+.ar-corners::after {
+  bottom: 8px;
+  right: 8px;
+  border-left: none;
+  border-top: none;
+  border-radius: 0 0 8px 0;
+}
+
+/* AR Text Glitch Effect */
+.ar-text-glitch {
+  position: relative;
+  animation: ar-text-glitch 3s ease-in-out infinite;
+}
+
+@keyframes ar-text-glitch {
+  0%, 90%, 100% { transform: translate(0); }
+  92% { transform: translate(-2px, 2px); }
+  94% { transform: translate(2px, -2px); }
+  96% { transform: translate(-2px, -2px); }
+  98% { transform: translate(2px, 2px); }
+}
+
+/* AR Loading Spinner */
+.ar-loading {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(59, 130, 246, 0.2);
+  border-top: 3px solid rgba(59, 130, 246, 0.8);
+  border-radius: 50%;
+  animation: ar-spin 1s linear infinite;
+}
+
+@keyframes ar-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* AR Backdrop Blur Enhancement */
+.ar-backdrop {
+  backdrop-filter: blur(12px) saturate(180%);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.dark .ar-backdrop {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* AR Responsive Enhancements */
+@media (max-width: 768px) {
+  .ar-grid-bg {
+    background-size: 30px 30px;
+  }
+  
+  .ar-neural-bg {
+    background-size: 60px 60px;
+  }
+}
+
+/* AR Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .ar-grid-bg,
+  .ar-holographic,
+  .ar-scan-line::before,
+  .ar-glow-pulse,
+  .ar-neural-bg,
+  .ar-data-stream::after,
+  .ar-quantum-particle,
+  .ar-text-glitch,
+  .ar-loading {
+    animation: none;
+  }
+}
