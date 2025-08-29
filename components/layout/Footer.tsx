@@ -45,20 +45,20 @@ const socialLinks = [
 export default function Footer() {
   return (
     <footer className="bg-gray-900 dark:bg-black text-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
         {/* Main Footer Content */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-6 sm:gap-8">
           {/* Company Info */}
-          <div className="lg:col-span-2">
-            <div className="flex items-center space-x-3 mb-6">
-              <div className="w-12 h-12 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center">
-                <span className="text-white font-bold text-lg">SGV</span>
+          <div className="sm:col-span-2 lg:col-span-2">
+            <div className="flex items-center space-x-3 mb-4">
+              <div className="w-10 h-10 flex-shrink-0 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-lg flex items-center justify-center">
+                <span className="text-white font-bold text-sm">SGV</span>
               </div>
-              <div>
-                <h3 className="text-xl font-bold">Sirius Global Ventures</h3>
-                <p className="text-sm text-gray-400">Corporate Excellence</p>
-              </div>
+              <h3 className="text-lg sm:text-xl font-bold">Sirius Global Ventures</h3>
             </div>
+            <p className="text-gray-300 text-sm mb-4 sm:mb-6">
+              Transforming ideas into reality through strategic investments and innovative solutions.
+            </p>
             <p className="text-gray-300 mb-6 max-w-md leading-relaxed">
               Building tomorrow's leaders through strategic investments and innovative partnerships 
               across multiple industries worldwide.
@@ -88,9 +88,11 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Company Links */}
-          <div>
-            <h4 className="text-lg font-semibold mb-4">Company</h4>
+          {/* Navigation Sections */}
+          <div className="mt-6 sm:mt-0">
+            <h3 className="text-sm font-semibold text-gray-300 uppercase tracking-wider mb-3 sm:mb-4">
+              Company
+            </h3>
             <ul className="space-y-2">
               {navigation.company.map((item) => (
                 <li key={item.name}>
@@ -106,8 +108,10 @@ export default function Footer() {
           </div>
 
           {/* Portfolio Links */}
-          <div>
-            <h4 className="text-lg font-semibold mb-4">Portfolio</h4>
+          <div className="mt-6 sm:mt-0">
+            <h3 className="text-sm font-semibold text-gray-300 uppercase tracking-wider mb-3 sm:mb-4">
+              Portfolio
+            </h3>
             <ul className="space-y-2">
               {navigation.portfolio.map((item) => (
                 <li key={item.name}>
@@ -135,8 +139,10 @@ export default function Footer() {
           </div>
 
           {/* Investors Links */}
-          <div>
-            <h4 className="text-lg font-semibold mb-4">Investors</h4>
+          <div className="mt-6 sm:mt-0">
+            <h3 className="text-sm font-semibold text-gray-300 uppercase tracking-wider mb-3 sm:mb-4">
+              Investors
+            </h3>
             <ul className="space-y-2">
               {navigation.investors.map((item) => (
                 <li key={item.name}>
@@ -152,8 +158,10 @@ export default function Footer() {
           </div>
 
           {/* Legal Links */}
-          <div>
-            <h4 className="text-lg font-semibold mb-4">Legal</h4>
+          <div className="mt-6 sm:mt-0">
+            <h3 className="text-sm font-semibold text-gray-300 uppercase tracking-wider mb-3 sm:mb-4">
+              Legal
+            </h3>
             <ul className="space-y-2">
               {navigation.legal.map((item) => (
                 <li key={item.name}>
@@ -191,19 +199,33 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Bottom Footer */}
-        <div className="border-t border-gray-800 mt-8 pt-8 flex flex-col md:flex-row md:items-center md:justify-between">
-          <div className="mb-4 md:mb-0">
-            <p className="text-gray-400">
-              © 2024 Sirius Global Ventures Holding. All rights reserved.
+        {/* Bottom Bar */}
+        <div className="mt-8 sm:mt-12 pt-6 sm:pt-8 border-t border-gray-800">
+          <div className="flex flex-col sm:flex-row justify-between items-center text-center sm:text-left">
+            <p className="text-gray-400 text-xs sm:text-sm">
+              &copy; {new Date().getFullYear()} Sirius Global Ventures. All rights reserved.
             </p>
-            <p className="text-gray-500 text-sm mt-1">
-              Founded by Mohamud Abdiaziz Mohamed • VP Joseph Jackson
-            </p>
-          </div>
-          
-          {/* Social Links */}
-          <div className="flex space-x-4">
+            <div className="mt-4 sm:mt-0 flex space-x-6">
+              <p className="text-gray-500 text-sm">
+                Founded by Mohamud Abdiaziz Mohamed • VP Joseph Jackson
+              </p>
+            </div>
+            
+            {/* Social Links */}
+            <div className="flex space-x-4 mt-4 sm:mt-0">
+              {socialLinks.map((item) => (
+                <a
+                  key={item.name}
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-400 hover:text-white transition-colors"
+                  title={item.name}
+                >
+                  <item.icon className="w-5 h-5" />
+                </a>
+              ))}
+            </div>
             {socialLinks.map((item) => (
               <a
                 key={item.name}

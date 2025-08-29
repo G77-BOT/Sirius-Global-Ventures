@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
+import ARStats from '@/components/ar/ARStats';
 import { 
   ArrowRight, 
   BarChart2, 
@@ -20,8 +21,6 @@ import {
   Users 
 } from 'lucide-react';
 import Link from 'next/link';
-import React from 'react';
-import { ArrowRight, TrendingUp, Shield, Globe, ChevronRight, ExternalLink } from 'lucide-react';
 
 export default function Home() {
   const [mounted, setMounted] = useState(false);
@@ -40,42 +39,6 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
-      {/* Header */}
-      <header className="bg-white/95 backdrop-blur-sm shadow-lg border-b border-blue-100 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              <div className="w-12 h-12 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center">
-                <span className="text-white font-bold text-lg">SGV</span>
-              </div>
-              <div>
-                <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-                  Sirius Global Ventures
-                </h1>
-                <p className="text-xs text-gray-500">Corporate Excellence</p>
-              </div>
-            </div>
-            <nav className="hidden md:flex space-x-8">
-              <Link href="#about" className="text-gray-600 hover:text-blue-600 font-medium transition-colors">
-                About
-              </Link>
-              <Link href="#companies" className="text-gray-600 hover:text-blue-600 font-medium transition-colors">
-                Our Companies
-              </Link>
-              <Link href="#news" className="text-gray-600 hover:text-blue-600 font-medium transition-colors">
-                News
-              </Link>
-              <Link href="/admin/news" className="text-gray-600 hover:text-blue-600 font-medium transition-colors">
-                Admin
-              </Link>
-              <Link href="#contact" className="text-gray-600 hover:text-blue-600 font-medium transition-colors">
-                Contact
-              </Link>
-            </nav>
-          </div>
-        </div>
-      </header>
-      
       {/* Hero Section */}
       <section className="relative overflow-hidden pt-16 pb-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -117,7 +80,12 @@ export default function Home() {
       {/* About Section */}
       <section id="about" className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
+          <motion.div 
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
             <h3 className="text-4xl font-bold text-gray-900 mb-6">
               Corporate Excellence Through Innovation
             </h3>

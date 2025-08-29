@@ -42,8 +42,15 @@ export function ThemeToggle() {
             `}
             title={label}
             aria-label={`Switch to ${label} theme`}
+            data-testid={`theme-toggle-${value}`}
           >
-            <Icon className="w-4 h-4" />
+            {value === 'light' ? (
+              <Sun data-testid="sun-icon" className="w-4 h-4" />
+            ) : value === 'dark' ? (
+              <Moon data-testid="moon-icon" className="w-4 h-4" />
+            ) : (
+              <Monitor data-testid="monitor-icon" className="w-4 h-4" />
+            )}
           </button>
         ))}
       </div>

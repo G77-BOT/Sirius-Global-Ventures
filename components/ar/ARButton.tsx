@@ -1,119 +1,161 @@
 'use client';
 
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Sparkles, X } from 'lucide-react';
+import dynamic from 'next/dynamic';
+
+// Dynamically import ARViewer with no SSR
+const ARViewer = dynamic(() => import('./ARViewer'), { ssr: false });
 
 interface ARButtonProps {
-  children: React.ReactNode;
-  onClick?: () => void;
-  variant?: 'primary' | 'secondary' | 'ghost';
-  size?: 'sm' | 'md' | 'lg';
+  modelUrl?: string;
+  label?: string;
   className?: string;
-  disabled?: boolean;
+  variant?: 'default' | 'outline' | 'ghost' | 'link';
+  size?: 'sm' | 'md' | 'lg';
   glowColor?: string;
+  showIcon?: boolean;
+  fullWidth?: boolean;
+  onClick?: () => void;
 }
 
 export default function ARButton({
-  children,
-  onClick,
-  variant = 'primary',
-  size = 'md',
+  modelUrl = '/models/company_logo.glb',
+  label = 'View in AR',
   className = '',
-  disabled = false,
-  glowColor = '#3b82f6'
+  variant = 'default',
+  size = 'md',
+  glowColor = '#3b82f6',
+  showIcon = true,
+  fullWidth = false,
+  onClick,
 }: ARButtonProps) {
-  const [isPressed, setIsPressed] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+  const [showARViewer, setShowARViewer] = useState(false);
+  const buttonRef = React.useRef<HTMLButtonElement>(null);
 
-  const baseClasses = "relative overflow-hidden font-medium transition-all duration-300 rounded-xl border backdrop-blur-sm";
-  
-  const variantClasses = {
-    primary: `bg-gradient-to-r from-blue-600/80 to-indigo-600/80 text-white border-blue-400/30 hover:from-blue-500/90 hover:to-indigo-500/90 shadow-lg hover:shadow-xl`,
-    secondary: `bg-white/10 text-gray-900 dark:text-white border-white/20 hover:bg-white/20 hover:border-white/30`,
-    ghost: `bg-transparent text-blue-600 dark:text-blue-400 border-blue-400/30 hover:bg-blue-400/10`
+  // Handle AR viewer open/close
+  const handleARViewerOpen = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setShowARViewer(true);
+    document.body.style.overflow = 'hidden';
+    if (onClick) onClick();
   };
 
-  const sizeClasses = {
-    sm: 'px-4 py-2 text-sm',
-    md: 'px-6 py-3 text-base',
-    lg: 'px-8 py-4 text-lg'
+  const handleARViewerClose = () => {
+    setShowARViewer(false);
+    document.body.style.overflow = 'auto';
   };
 
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, []);
+
+  // Button variants
   const buttonVariants = {
-  initial: {
-    scale: 1,
-    boxShadow: "0 2px 8px #3b82f630",
-  },
-  hover: {
-    scale: 1.05,
-    boxShadow: "0 4px 24px #3b82f6cc",
-    transition: {
-      type: "spring",
-      stiffness: 300,
-      damping: 20,
-    },
-  },
-  tap: {
-    scale: 0.98,
-    boxShadow: "0 2px 4px #3b82f650",
-    transition: {
-      type: "spring",
-      stiffness: 500,
-      damping: 35,
-    },
-  },
-};
+    default: `bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:from-blue-700 hover:to-indigo-700`,
+    outline: `bg-transparent border border-blue-600 text-blue-600 hover:bg-blue-600/10`,
+    ghost: `bg-transparent hover:bg-blue-600/10 text-blue-600`,
+    link: `bg-transparent text-blue-600 hover:underline p-0 h-auto`,
+  };
+
+  // Size variants
+  const sizeVariants = {
+    sm: 'text-sm py-1.5 px-3',
+    md: 'text-base py-2 px-4',
+    lg: 'text-lg py-2.5 px-6',
+  };
+
+  // Glow effect styles
+  const glowStyles = {
+    '--glow-color': glowColor,
+    '--glow-opacity': isHovered ? '0.5' : '0.2',
+    '--glow-size': isHovered ? '100%' : '50%',
+  } as React.CSSProperties;
+
   return (
-    <motion.button
-      className={`${baseClasses} ${variantClasses[variant]} ${sizeClasses[size]} ${className} ${
-        disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'
-      }`}
-      variants={buttonVariants}
-      initial="initial"
-      whileHover={!disabled ? "hover" : "initial"}
-      whileTap={!disabled ? "tap" : "initial"}
-      onClick={onClick}
-      disabled={disabled}
-      onMouseDown={() => setIsPressed(true)}
-      onMouseUp={() => setIsPressed(false)}
-      onMouseLeave={() => setIsPressed(false)}
-    >
-      {/* AR Scan Line Effect */}
-      <div 
-        className={`absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 transition-transform duration-1000 ${
-          isPressed ? 'translate-x-full' : '-translate-x-full'
-        }`}
-        style={{ width: '50%' }}
-      />
-      
-      {/* Holographic Border */}
-      <div className="absolute inset-0 rounded-xl">
+    <>
+      <motion.button
+        ref={buttonRef}
+        className={`relative overflow-hidden rounded-lg font-medium transition-all duration-300 flex items-center justify-center gap-2 ${
+          fullWidth ? 'w-full' : 'w-auto'
+        } ${buttonVariants[variant]} ${sizeVariants[size]} ${className}`}
+        style={glowStyles}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        onClick={handleARViewerOpen}
+        whileHover={{ scale: 1.03 }}
+        whileTap={{ scale: 0.98 }}
+      >
+        {/* Glow effect */}
         <div 
-          className="absolute inset-0 rounded-xl opacity-50"
+          className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
           style={{
-            background: `linear-gradient(45deg, ${glowColor}60, transparent, ${glowColor}60)`,
-            backgroundSize: '200% 200%',
-            animation: 'holographic-border 2s ease-in-out infinite'
+            background: `radial-gradient(circle at center, ${glowColor}20, transparent 70%)`,
+            filter: 'blur(8px)',
           }}
         />
-      </div>
 
-      {/* Content */}
-      <span className="relative z-10 flex items-center justify-center">
-        {children}
-      </span>
+        {/* Button content */}
+        {showIcon && (
+          <motion.span 
+            className="relative z-10"
+            animate={isHovered ? { rotate: 15 } : { rotate: 0 }}
+            transition={{ type: 'spring', stiffness: 500, damping: 20 }}
+          >
+            <Sparkles className="w-4 h-4" />
+          </motion.span>
+        )}
+        <span className="relative z-10">{label}</span>
 
-      {/* AR Corner Indicators */}
-      <div className="absolute top-1 left-1 w-2 h-2 border-l border-t border-white/40 rounded-tl" />
-      <div className="absolute top-1 right-1 w-2 h-2 border-r border-t border-white/40 rounded-tr" />
-      <div className="absolute bottom-1 left-1 w-2 h-2 border-l border-b border-white/40 rounded-bl" />
-      <div className="absolute bottom-1 right-1 w-2 h-2 border-r border-b border-white/40 rounded-br" />
+        {/* Shimmer effect */}
+        <div 
+          className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+          style={{
+            transform: 'translateX(-100%) rotate(-30deg)',
+            animation: isHovered ? 'shimmer 1.5s infinite' : 'none',
+          }}
+        />
+      </motion.button>
 
-      <style jsx>{`
-        @keyframes holographic-border {
-          0%, 100% { background-position: 0% 50%; }
-          50% { background-position: 100% 50%; }
+      {/* AR Viewer Modal */}
+      <AnimatePresence>
+        {showARViewer && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[200] bg-black/90 backdrop-blur-sm flex items-center justify-center"
+            onClick={handleARViewerClose}
+          >
+            <div className="relative w-full h-full max-w-6xl">
+              <button
+                className="absolute top-4 right-4 text-white hover:text-blue-400 transition-colors z-10"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleARViewerClose();
+                }}
+              >
+                <span className="sr-only">Close AR Viewer</span>
+                <X className="w-8 h-8" />
+              </button>
+              <ARViewer modelUrl={modelUrl} />
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Global styles */}
+      <style jsx global>{`
+        @keyframes shimmer {
+          0% { transform: translateX(-100%) rotate(-30deg); }
+          100% { transform: translateX(100%) rotate(-30deg); }
         }
       `}</style>
-    </motion.button>
+    </>
   );
 }

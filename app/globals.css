@@ -1,9 +1,17 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
 
 @layer base {
   :root {
+    /* AR-Specific Variables */
+    --ar-glow: 221.2 83.2% 53.3%;
+    --ar-glow-intensity: 0.4;
+    --ar-glow-spread: 0.5;
+    --ar-shadow-color: 221.2 83.2% 53.3%;
+    --ar-shadow-intensity: 0.15;
+    --ar-hover-scale: 1.02;
+    --ar-transition-duration: 0.3s;
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
     --card: 0 0% 100%;
@@ -24,6 +32,7 @@
     --input: 214.3 31.8% 91.4%;
     --ring: 221.2 83.2% 53.3%;
     --radius: 0.5rem;
+    --ar-border-radius: 0.75rem;
   }
  
   .dark {
@@ -73,25 +82,39 @@
 
 @layer base {
   * {
-    @apply border-border;
+    border-color: hsl(var(--border));
   }
   
   body {
-    @apply bg-background text-foreground min-h-screen transition-colors duration-200;
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    min-height: 100vh;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
+}
 
-  /* Custom scrollbar */
-  ::-webkit-scrollbar {
-    @apply w-2;
+@layer components {
+  .scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--primary) / 0.3) transparent;
+  }
+  
+  .scrollbar::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
   }
 
-  ::-webkit-scrollbar-track {
-    @apply bg-background/50;
+  .scrollbar::-webkit-scrollbar-track {
+    background-color: hsl(var(--background) / 0.5);
   }
 
-  ::-webkit-scrollbar-thumb {
-    @apply bg-primary/30 rounded-full hover:bg-primary/50 transition-colors;
+  .scrollbar::-webkit-scrollbar-thumb {
+    background-color: hsl(var(--primary) / 0.3);
+    border-radius: 9999px;
+  }
+  
+  .scrollbar::-webkit-scrollbar-thumb:hover {
+    background-color: hsl(var(--primary) / 0.5);
   }
 }
 
@@ -199,9 +222,118 @@
 }
 
 /* AR Scan Line Animation */
+/* AR Component Styles */
+.ar-container {
+  perspective: 1000px;
+  transform-style: preserve-3d;
+}
+
+.ar-glow {
+  position: relative;
+  overflow: hidden;
+}
+
+.ar-glow::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    hsl(var(--ar-glow) / var(--ar-glow-intensity)) 0%,
+    transparent calc(100% * var(--ar-glow-spread))
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.ar-glow:hover::before {
+  opacity: 1;
+}
+
+/* 3D Card Effect */
+.ar-card {
+  transform-style: preserve-3d;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  will-change: transform, box-shadow;
+}
+
+.ar-card:hover {
+  transform: translateZ(10px) rotateX(calc((var(--mouse-y, 0.5) - 0.5) * 5deg)) rotateY(calc((var(--mouse-x, 0.5) - 0.5) * -5deg));
+  box-shadow: 0 10px 30px -5px hsl(var(--ar-shadow-color) / var(--ar-shadow-intensity));
+}
+
+/* Holographic Effect */
+@keyframes holographic {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.holographic {
+  background: linear-gradient(
+    45deg,
+    hsl(210, 100%, 50%),
+    hsl(290, 100%, 50%),
+    hsl(0, 100%, 50%),
+    hsl(50, 100%, 50%),
+    hsl(210, 100%, 50%)
+  );
+  background-size: 300% 300%;
+  animation: holographic 15s ease infinite;
+}
+
+/* AR Grid Overlay */
+.ar-grid {
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 20px 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Scan Line Animation */
 .ar-scan-line {
   position: relative;
   overflow: hidden;
+}
+
+.ar-scan-line::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    hsl(var(--primary) / 0.8),
+    transparent
+  );
+  animation: scan 2s linear infinite;
+  transform: translateY(-100%);
+}
+
+@keyframes scan {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
+
+/* 3D Text Effect */
+.text-3d {
+  text-shadow: 
+    1px 1px 0 hsl(var(--primary) / 0.5),
+    2px 2px 0 hsl(var(--primary) / 0.4),
+    3px 3px 0 hsl(var(--primary) / 0.3);
+  transform: translateZ(10px);
+}
+
+/* Responsive AR Elements */
+@media (max-width: 768px) {
+  .ar-card:hover {
+    transform: none;
+  }
 }
 
 .ar-scan-line::before {
