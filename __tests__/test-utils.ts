@@ -16,6 +16,8 @@ export const createMockRequest = (method: string, body?: any, params?: any): Nex
     headers: {
       'Content-Type': 'application/json',
     },
+  });
+  return request;
 };
 
 // Setup test database

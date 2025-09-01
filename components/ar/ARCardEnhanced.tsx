@@ -1,671 +1,255 @@
 'use client';
 
-import React, { useState, useRef, useCallback, useEffect, FC, ReactNode } from 'react';
-import { motion, AnimatePresence, useAnimation } from 'framer-motion';
-import { X, Maximize2, Minimize2, Move3d, ArrowRight, Zap, Eye, EyeOff } from 'lucide-react';
+import React, { useState, useRef, useCallback, useEffect, ReactNode, CSSProperties } from 'react';
+import { motion, useAnimation, Variants } from 'framer-motion';
+import { X, Maximize2, Minimize2, Move3d } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import * as THREE from 'three';
+import { Group } from 'three';
+import { Canvas } from '@react-three/fiber';
+import { OrbitControls, useGLTF } from '@react-three/drei';
+import { Suspense } from 'react';
 import { useAR } from '@/contexts/ARContext';
 import { useTheme } from '@/contexts/ThemeContext';
-import { useARCardInteractions } from '@/hooks/useARCardInteractions';
-import { Group } from 'three';
 
-// Define types for animation controls
-interface AnimationControls {
-  start: (animation: any) => void;
-  stop: () => void;
-}
+type Vector3 = [number, number, number];
 
-type SpringConfig = {
-  tension?: number;
-  friction?: number;
-  mass?: number;
-  damping?: number;
-  stiffness?: number;
-  type?: 'spring' | 'tween' | 'inertia' | 'just';
-};
-
-// Define ARViewerEnhanced props interface
-interface ARViewerEnhancedProps {
-  modelUrl: string;
-  scale?: number;
-  position?: [number, number, number];
-  rotation?: [number, number, number];
-  autoRotate?: boolean;
-  enableZoom?: boolean;
-  enablePan?: boolean;
-  enableRotate?: boolean;
-  onClose?: () => void;
-  onError?: (error: Error) => void;
-  onLoad?: () => void;
-  className?: string;
-  shadows?: boolean;
-}
-
-// Dynamically import ARViewer component with dynamic import (no SSR)
-const ARViewerEnhanced = dynamic<ARViewerEnhancedProps>(
-  () => import('./ARViewerEnhanced').then((mod) => mod.default),
-  { 
-    ssr: false, 
-    loading: () => (
-      <div className="flex items-center justify-center h-full">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500"></div>
-      </div>
-    )
-  }
-);
-
-interface ARCardEnhancedProps {
-  title: string;
-  description: string;
-  modelUrl: string;
-  imageUrl?: string;
-  className?: string;
-  scale?: number;
-  position?: [number, number, number];
-  rotation?: [number, number, number];
-  glowColor?: string;
-  ambientLightIntensity?: number;
-  directionalLightIntensity?: number;
-  enableShadows?: boolean;
-  enableAutoRotate?: boolean;
-  enableZoom?: boolean;
-  enablePan?: boolean;
-  enableRotate?: boolean;
-  onViewInAR?: () => void;
-  onClose?: () => void;
-  onModelLoaded?: (model: THREE.Object3D) => void;
-  children?: React.ReactNode;
-  style?: React.CSSProperties;
-  overlayContent?: React.ReactNode;
-  showARButton?: boolean;
-  showExpandButton?: boolean;
-  showCloseButton?: boolean;
-  initialExpanded?: boolean;
-  animationConfig?: {
-    hoverScale?: number;
-    tapScale?: number;
-    transition?: {
-      type?: 'spring' | 'tween' | 'inertia' | 'just';
-      stiffness?: number;
-      damping?: number;
-      mass?: number;
-    };
+interface AnimationConfig {
+  hoverScale?: number;
+  tapScale?: number;
+  transition?: {
+    type?: 'spring' | 'tween' | 'inertia' | 'just';
+    stiffness?: number;
+    damping?: number;
+    mass?: number;
   };
 }
 
-export const ARCardEnhanced: React.FC<ARCardEnhancedProps> = ({
+const defaultAnimationConfig: AnimationConfig = {
+  hoverScale: 1.05,
+  tapScale: 0.98,
+  transition: {
+    type: 'spring' as const,
+    stiffness: 300,
+    damping: 20,
+    mass: 0.5
+  }
+};
+
+/**
+ * Props for the ARCardEnhanced component
+ */
+interface ARCardEnhancedProps {
+  /** Card title */
+  title: string;
+  /** Optional card description */
+  description?: string;
+  /** URL to the 3D model (GLB/GLTF format) */
+  modelUrl: string;
+  /** Optional image URL to display as fallback */
+  imageUrl?: string;
+  /** Additional CSS classes */
+  className?: string;
+  /** Initial scale of the 3D model */
+  scale?: number;
+  /** Position of the 3D model [x, y, z] */
+  position?: Vector3;
+  /** Rotation of the 3D model [x, y, z] in radians */
+  rotation?: Vector3;
+  /** Callback when the AR view is requested */
+  onViewInAR?: () => void;
+  /** Callback when the card is closed */
+  onClose?: () => void;
+  /** Callback when the 3D model is loaded */
+  onModelLoaded?: (model: Group) => void;
+  /** Additional content to render inside the card */
+  children?: ReactNode;
+  /** Inline styles */
+  style?: CSSProperties;
+  /** Whether to show the AR button */
+  showARButton?: boolean;
+  /** Whether to show the expand button */
+  showExpandButton?: boolean;
+  /** Whether to show the close button */
+  showCloseButton?: boolean;
+  /** Whether the card is initially expanded */
+  initialExpanded?: boolean;
+  /** Animation configuration */
+  animationConfig?: AnimationConfig;
+}
+
+
+interface ModelProps {
+  url: string;
+  scale?: number;
+  position?: Vector3;
+  rotation?: Vector3;
+  onLoad?: (model: Group) => void;
+  onError?: (error: Error) => void;
+}
+
+const Model: React.FC<ModelProps> = ({
+  url,
+  scale = 1,
+  position = [0, 0, 0],
+  rotation = [0, 0, 0],
+  onLoad,
+  onError
+}) => {
+  const { scene } = useGLTF(url, undefined, undefined, (e) => {
+    if (e instanceof Error) onError?.(e);
+  });
+  
+  useEffect(() => {
+    if (scene) {
+      // Create a new group and add the cloned scene to it
+      const group = new THREE.Group();
+      const model = scene.clone();
+      group.add(model);
+      
+      // Set initial position, rotation, and scale
+      group.position.set(...position);
+      group.rotation.set(...rotation);
+      group.scale.set(scale, scale, scale);
+      
+      // Notify parent that model is loaded
+      onLoad?.(group);
+    }
+  }, [scene, onLoad, position, rotation, scale]);
+
+  if (!scene) return null;
+  
+  // Create a group to properly handle the model
+  return (
+    <group scale={[scale, scale, scale]} position={position} rotation={rotation}>
+      <primitive object={scene} />
+    </group>
+  );
+};
+
+const ARCardEnhanced: React.FC<ARCardEnhancedProps> = ({
   title,
   description,
   modelUrl,
-  imageUrl,
   className = '',
   scale: initialScale = 1,
   position: initialPosition = [0, 0, 0],
   rotation: initialRotation = [0, 0, 0],
-  glowColor = 'rgba(99, 102, 241, 0.6)',
-  ambientLightIntensity = 0.5,
-  directionalLightIntensity = 1,
-  enableShadows = true,
-  enableAutoRotate = true,
-  enableZoom = true,
-  enablePan = true,
-  enableRotate = true,
   onViewInAR,
   onClose,
   onModelLoaded,
   children,
   style,
-  overlayContent,
   showARButton = true,
   showExpandButton = true,
   showCloseButton = true,
   initialExpanded = false,
-  animationConfig = {
-    hoverScale: 1.05,
-    tapScale: 0.98,
-    transition: {
-      type: 'spring',
-      stiffness: 100,
-      damping: 10,
-      mass: 0.5
-    }
-  },
+  animationConfig = defaultAnimationConfig,
   ...props
 }) => {
-  // Refs
-  const cardRef = useRef<HTMLDivElement>(null);
-  const glowRef = useRef<HTMLDivElement>(null);
-  const modelRef = useRef<THREE.Group>(null);
-  const controls = useAnimation();
-  
-  // State for loading and error
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isExpanded, setIsExpanded] = useState(initialExpanded);
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  
-  // UI state
-  const [isHovered, setIsHovered] = useState<boolean>(false);
-  const [isTapped, setIsTapped] = useState<boolean>(false);
-  const [isExpanded, setIsExpanded] = useState<boolean>(initialExpanded);
-  
-  // Model transform state
-  const [modelPosition, setModelPosition] = useState<[number, number, number]>(initialPosition);
-  const [modelRotation, setModelRotation] = useState<[number, number, number]>(initialRotation);
-  const [modelScale, setModelScale] = useState<number>(initialScale);
-  
-  // AR state
-  const [showARViewer, setShowARViewer] = useState<boolean>(false);
-  const [isARActive, setIsARActive] = useState<boolean>(false);
-  const [arSessionStarted, setARSessionStarted] = useState<boolean>(false);
-  const [isARLoading, setIsARLoading] = useState<boolean>(false);
-  const [arError, setARError] = useState<string | null>(null);
-  
-  // Theme
-  const { theme } = useTheme();
-  const isDark = theme === 'dark';
-  
-  // Check if AR is supported
-  const isARSupported = typeof window !== 'undefined' && 
-                       'xr' in navigator && 
-                       navigator.xr && 
-                       'isSessionSupported' in navigator.xr;
-  
-  // Toggle card expansion
-  // AR context
-  const { isARSupported: isARSupportedFromContext } = useAR();
+  const [showARViewer, setShowARViewer] = useState(false);
+  const [model, setModel] = useState<Group | null>(null);
+  const cardRef = useRef<HTMLDivElement>(null);
+  const controls = useRef<any>(null);
+  const { isARSupported, launchAR } = useAR();
 
-  // Memoize spring config for animations
-  const springConfig = useMemo(() => ({
-    type: animationConfig?.transition?.type || 'spring',
-    stiffness: animationConfig?.transition?.stiffness || 100,
-    damping: animationConfig?.transition?.damping || 10,
-    mass: animationConfig?.transition?.mass || 0.5
-  }), [animationConfig]);
-
-  // Handle AR view toggle
-  const handleViewInAR = useCallback(async () => {
-    if (!isARSupported) {
-      setARError('AR is not supported on this device');
-      return;
-    }
-
-    try {
-      setIsARLoading(true);
-      setShowARViewer(true);
-      
-      if (onViewInAR) {
-        await onViewInAR();
-      }
-      
-      setIsARActive(true);
-      setARSessionStarted(true);
-    } catch (error) {
-      setARError(error instanceof Error ? error.message : 'Failed to start AR session');
-      setShowARViewer(false);
-      setIsARActive(false);
-      setARSessionStarted(false);
-    } finally {
-      setIsARLoading(false);
-    }
-  }, [isARSupported, onViewInAR]);
-    setIsARLoading(true);
-    if (onViewInAR) onViewInAR();
-  }, [onViewInAR]);
-
-  const handleARViewerClose = useCallback(() => {
-    setShowARViewer(false);
-    setIsARActive(false);
-    setARSessionStarted(false);
-    if (onClose) onClose();
-  }, [onClose]);
-
-  // Handle AR session start/end
-  const handleARStart = useCallback(() => {
-    setIsARActive(true);
-    setARSessionStarted(true);
-    setIsARLoading(false);
-  }, []);
-
-  const handleAREnd = useCallback(() => {
-    setIsARActive(false);
-    setARSessionStarted(false);
-    setShowARViewer(false);
-  }, []);
-
-  // Handle model loading
-  const handleModelLoaded = useCallback((model: THREE.Object3D) => {
-    try {
-      // Update model position and rotation
-      setModelPosition(initialPosition);
-      setModelRotation(initialRotation);
-      setModelScale(initialScale);
-      
-      // Call the onModelLoaded callback if provided
-      if (onModelLoaded) {
-        onModelLoaded(model);
-      }
-      
-      // Set loading to false and clear any errors
+  const handleModelLoaded = useCallback((loadedModel: unknown) => {
+    const model = loadedModel as THREE.Group;
+    if (model && model.isGroup) {
+      setModel(model);
       setIsLoading(false);
-      setError(null);
-    } catch (err) {
-      console.error('Error handling model load:', err);
-      setError(err instanceof Error ? err : new Error('Failed to load model'));
-      setIsLoading(false);
-    }
-      
-      // Set loading to false
-      setIsLoading(false);
-      setError(null);
-    } catch (err) {
-      console.error('Error handling model load:', err);
-      setError(err instanceof Error ? err : new Error('Failed to load model'));
+      onModelLoaded?.(model);
+    } else {
+      console.error('Loaded model is not a Group:', loadedModel);
+      setError('Invalid model format');
       setIsLoading(false);
     }
   }, [onModelLoaded]);
 
-  // Handle model error
-  const handleModelError = useCallback((err: Error) => {
-    console.error('Error loading 3D model:', err);
+  const handleModelError = useCallback((error: Error) => {
+    console.error('Error loading model:', error);
+    setError('Failed to load 3D model');
     setIsLoading(false);
-    setError(err);
   }, []);
 
-  // Update glow effect on hover
-  useEffect(() => {
-    if (!cardRef.current) return;
-
-    const updateGlow = (e: MouseEvent) => {
-      if (!cardRef.current) return;
-      
-      const rect = cardRef.current.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      
-      cardRef.current.style.setProperty('--glow-x', `${x}px`);
-      cardRef.current.style.setProperty('--glow-y', `${y}px`);
-    };
-
-    if (isHovered) {
-      cardRef.current.addEventListener('mousemove', updateGlow);
-    }
-
-    return () => {
-      if (cardRef.current) {
-        cardRef.current.removeEventListener('mousemove', updateGlow);
-      }
-    };
-  }, [isHovered]);
-
-  // Cleanup on unmount
-  useEffect(() => {
-    return () => {
-      document.body.style.overflow = 'auto';
-    };
-  }, []);
-
-  // Toggle hover state
-  const handleHoverStart = useCallback(() => {
-    setIsHovered(true);
-    controls.start({
-      scale: animationConfig.hoverScale,
-      transition: {
-        type: 'spring',
-        stiffness: animationConfig.transition?.stiffness || 300,
-        damping: animationConfig.transition?.damping || 15,
-        mass: animationConfig.transition?.mass || 0.5
-      }
-    });
-  }, [controls, animationConfig]);
-
-  const handleHoverEnd = useCallback(() => {
-    setIsHovered(false);
-    controls.start({
-      scale: 1,
-      transition: {
-        type: 'spring',
-        stiffness: animationConfig.transition?.stiffness || 300,
-        damping: animationConfig.transition?.damping || 15,
-        mass: animationConfig.transition?.mass || 0.5
-      }
-    });
-  }, [controls, animationConfig]);
-
-  // Handle tap/click
-  const handleTap = useCallback(() => {
-    if (!isExpanded) {
-      setIsExpanded(true);
-    }
-  }, [isExpanded]);
-
-  // Card content
-  const renderCardContent = () => (
-    <div className="relative w-full h-full flex flex-col">
-      {/* Header */}
-      <div className="flex items-center justify-between p-4 bg-gradient-to-r from-gray-800/80 to-transparent">
-        <h3 className="text-lg font-bold text-white">{title}</h3>
-        <div className="flex space-x-2">
-          {showARButton && isARSupported && (
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={handleARViewerOpen}
-              className="p-2 rounded-full bg-indigo-600/80 hover:bg-indigo-500 text-white"
-              aria-label="View in AR"
-            >
-              <Move3d size={16} />
-            </motion.button>
-          )}
-          {showExpandButton && (
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={toggleExpand}
-              className="p-2 rounded-full bg-gray-700/80 hover:bg-gray-600 text-white"
-              aria-label={isExpanded ? 'Minimize' : 'Expand'}
-            >
-              {isExpanded ? <Minimize2 size={16} /> : <Maximize2 size={16} />}
-            </motion.button>
-          )}
-          {showCloseButton && isExpanded && (
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={(e) => {
-                e.stopPropagation();
-                setIsExpanded(false);
-              }}
-              className="p-2 rounded-full bg-red-600/80 hover:bg-red-500 text-white"
-              aria-label="Close"
-            >
-              <X size={16} />
-            </motion.button>
-          )}
-        </div>
-      </div>
-
-      {/* 3D Model Container */}
-      <div className="relative flex-1 w-full overflow-hidden">
-        {isLoading && !error && (
-          <div className="absolute inset-0 flex items-center justify-center bg-gray-900/50">
-            <div className="animate-pulse text-gray-400">Loading 3D model...</div>
-          </div>
-        )}
-
-        {error && (
-          <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/80 text-white p-4 z-10">
-            <div className="text-red-500 font-medium">Error loading model</div>
-            <div className="text-sm text-gray-300 mt-2">{error.message}</div>
-            <button
-              onClick={() => {
-                setError(null);
-                setIsLoading(true);
-              }}
-              className="mt-4 px-4 py-2 text-sm bg-gray-700 rounded-md hover:bg-gray-600 transition-colors"
-            >
-              Retry
-            </button>
-          </div>
-        )}
-        {showExpandButton && (
-          <motion.button
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={toggleExpand}
-            className="p-2 rounded-full bg-gray-700/80 hover:bg-gray-600 text-white"
-            aria-label={isExpanded ? 'Minimize' : 'Expand'}
-          >
-            {isExpanded ? <Minimize2 size={16} /> : <Maximize2 size={16} />}
-          </motion.button>
-        )}
-        {showCloseButton && isExpanded && (
-          <motion.button
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={(e) => {
-              e.stopPropagation();
-              setIsExpanded(false);
-            }}
-            className="p-2 rounded-full bg-red-600/80 hover:bg-red-500 text-white"
-            aria-label="Close"
-          >
-            <X size={16} />
-          </motion.button>
-        )}
-      </div>
-        <p className="text-sm text-gray-300 line-clamp-2">{description}</p>
-        {children && <div className="mt-2">{children}</div>}
-      </div>
-
-      {/* Overlay Content */}
-      {overlayContent && (
-        <div className="absolute inset-0 pointer-events-none">
-          {overlayContent}
-        </div>
-      )}
-
-      {/* Glow Effect */}
-      <div 
-        className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-        style={{
-          background: `radial-gradient(
-            circle at var(--glow-x, 50%) var(--glow-y, 50%),
-            var(--glow-color, rgba(99, 102, 241, 0.6)) 0%,
-            transparent 70%
-          )`,
-          filter: 'blur(20px)',
-          zIndex: -1,
-        }}
-      />
-    </div>
-  );
+  const handleViewInAR = useCallback(() => {
+    onViewInAR?.();
+    isARSupported ? launchAR(modelUrl) : setShowARViewer(true);
+  }, [isARSupported, launchAR, modelUrl, onViewInAR]);
 
   return (
-    <>
-      <motion.div
-        ref={cardRef}
-        className={`relative rounded-2xl overflow-hidden bg-gradient-to-br from-gray-900 to-gray-800 shadow-2xl 
-          transition-all duration-300 group ${isExpanded ? 'w-full h-[80vh]' : 'w-full h-96'} ${className}`}
-        style={{
-          '--glow-color': glowColor,
-          '--glow-size': '200px',
-          '--glow-opacity': '0.3',
-          ...style,
-        } as React.CSSProperties}
-        onHoverStart={handleHoverStart}
-        onHoverEnd={handleHoverEnd}
-        onTap={handleTap}
-        animate={controls}
-        initial={false}
-        layout
-      >
-        {renderCardContent()}
-      </motion.div>
-
-      {/* AR Viewer Modal */}
-      {showARViewer && (
-        <AnimatePresence>
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-black/90 backdrop-blur-sm flex items-center justify-center p-4"
-            onClick={handleARViewerClose}
-{{ ... }}
-            <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-              className="relative w-full max-w-6xl h-[80vh] bg-gray-900 rounded-2xl overflow-hidden"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div className="absolute top-4 right-4 z-10 flex space-x-2">
-                <motion.button
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={handleARViewerClose}
-                  className="p-2 rounded-full bg-red-600/80 hover:bg-red-500 text-white"
-                  aria-label="Close AR Viewer"
-                >
-                  <X size={20} />
-                </motion.button>
-              </div>
-              
-              <div className="w-full h-full">
-                <ARViewerEnhanced
-                  modelUrl={modelUrl}
-                  scale={scale * 1.5}
-                  position={position}
-                  rotation={rotation}
-                  autoRotate={true}
-                  enableZoom={true}
-                  enablePan={true}
-                  enableRotate={true}
-                  className="w-full h-full"
-                />
-              </div>
-              
-              <div className="absolute bottom-4 left-0 right-0 flex justify-center">
-                <div className="bg-black/70 text-white text-sm px-4 py-2 rounded-full">
-                  {isARActive ? 'Move your device to explore in AR' : 'Tap the AR button to place in your space'}
-                </div>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-          '--glow-blur': '50px',
-          '--glow-x': '0px',
-          '--glow-y': '0px',
-        } as React.CSSProperties}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-      >
-        {/* Glow effect */}
-        <div 
-          className="absolute inset-0 pointer-events-none opacity-0 transition-opacity duration-300"
-          style={{
-            background: `radial-gradient(
-              circle at var(--glow-x) var(--glow-y),
-              var(--glow-color) 0%,
-              transparent calc(var(--glow-size) / 2)
-            )`,
-            filter: 'blur(var(--glow-blur))',
-            opacity: isHovered ? 'var(--glow-opacity)' : '0',
-            transition: 'opacity 0.3s ease',
-          }}
-          aria-hidden="true"
-        />
-
-        {/* Card content */}
-        <div className="relative z-10 h-full flex flex-col">
-          {/* Header */}
-          <div className="flex items-center justify-between p-4 bg-gradient-to-r from-gray-900/80 to-transparent">
-            <h3 className="text-xl font-bold text-white">{title}</h3>
-            <div className="flex space-x-2">
-              <button
-                onClick={toggleExpand}
-                className="p-2 text-gray-300 hover:text-white transition-colors"
-                aria-label={isExpanded ? 'Minimize' : 'Expand'}
-              >
-                {isExpanded ? <Minimize2 size={18} /> : <Maximize2 size={18} />}
-              </button>
-              {onClose && (
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    if (onClose) onClose();
-                  }}
-                  className="p-2 text-gray-300 hover:text-white transition-colors"
-                  aria-label="Close"
-                >
-                  <X size={18} />
-                </button>
-              )}
-            </div>
-          </div>
-
-          {/* 3D Model or Image Preview */}
-          <div className="flex-1 relative">
-            <div className="absolute inset-0">
-              {showARViewer ? (
-                <ARViewerEnhanced
-                  modelUrl={modelUrl}
-                  scale={scale}
-                  position={position}
-                  rotation={rotation}
-                  onClose={handleARViewerClose}
-                  className="w-full h-full"
-                />
-              ) : imageUrl ? (
-                <div 
-                  className="w-full h-full bg-cover bg-center"
-                  style={{ backgroundImage: `url(${imageUrl})` }}
-                />
-              ) : (
-                <div className="w-full h-full flex items-center justify-center bg-gray-800">
-                  <div className="text-center p-4">
-                    <Move3d className="w-12 h-12 mx-auto text-gray-600 mb-2" />
-                    <p className="text-gray-400">3D Model Preview</p>
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* Footer */}
-          <div className="p-4 bg-gradient-to-t from-black/80 to-transparent">
-            <p className="text-gray-300 text-sm mb-4 line-clamp-2">{description}</p>
-            <div className="flex justify-between items-center">
-              <button
-                onClick={handleARViewerOpen}
-                className="inline-flex items-center px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg 
-                  transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-              >
-                <Move3d className="w-4 h-4 mr-2" />
-                {isARSupported ? 'View in AR' : '3D Preview'}
-                <ArrowRight className="w-4 h-4 ml-2" />
-              </button>
-              {children && (
-                <div className="flex space-x-2">
-                  {React.Children.map(children, (child, index) => (
-                    <div key={index} onClick={(e) => e.stopPropagation()}>
-                      {child}
-      <AnimatePresence>
-        {showARViewer && !isARActive && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4"
-            onClick={handleARViewerClose}
+    <motion.div
+      ref={cardRef}
+      className={`relative bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg ${className}`}
+      style={style}
+      initial={{ scale: 1 }}
+      whileHover={{ scale: animationConfig.hoverScale || 1.05 }}
+      whileTap={{ scale: animationConfig.tapScale || 0.98 }}
+      transition={animationConfig.transition}
+      {...props}
+    >
+      <div className="relative w-full h-64">
+        <Canvas shadows camera={{ position: [0, 0, 5], fov: 50 }}>
+          <ambientLight intensity={0.5} />
+          <directionalLight position={[10, 10, 5]} intensity={1} castShadow />
+          <Suspense fallback={null}>
+            <Model 
+              url={modelUrl}
+              scale={initialScale}
+              position={initialPosition}
+              rotation={initialRotation}
+              onLoad={handleModelLoaded}
+              onError={handleModelError}
+            />
+            <OrbitControls enableZoom={false} enablePan={false} />
+          </Suspense>
+        </Canvas>
+        
+        {showARButton && (
+          <button
+            onClick={handleViewInAR}
+            className="absolute top-4 right-4 p-2 bg-indigo-600 rounded-full text-white hover:bg-indigo-700"
+            aria-label="View in AR"
           >
-            <div 
-              className="relative w-full max-w-4xl h-[80vh] rounded-xl overflow-hidden"
-              onClick={(e: React.MouseEvent) => e.stopPropagation()}
-            >
-              {modelUrl && (
-                <ARViewer
-                  modelUrl={modelUrl}
-                  scale={cardScale * 1.5}
-                  position={modelPosition}
-                  rotation={modelRotation}
-                  onClose={handleARViewerClose}
-                  className="w-full h-full"
-                />
-              )}
-              
-              <div className="absolute bottom-4 left-0 right-0 text-center">
-                <p className="text-gray-300 text-sm bg-black/50 inline-block px-3 py-1 rounded-full">
-                  Drag to rotate • Scroll to zoom • Right-click to pan
-                </p>
-              </div>
-            </div>
-          </motion.div>
+            <Move3d size={20} />
+          </button>
         )}
-      </AnimatePresence>
-    </>
+        
+        {showExpandButton && (
+          <button
+            onClick={() => setIsExpanded(!isExpanded)}
+            className="absolute top-4 left-4 p-2 bg-white/10 backdrop-blur-sm rounded-full text-white"
+          >
+            {isExpanded ? <Minimize2 size={20} /> : <Maximize2 size={20} />}
+          </button>
+        )}
+        
+        {showCloseButton && onClose && (
+          <button
+            onClick={onClose}
+            className="absolute top-4 right-16 p-2 bg-white/10 backdrop-blur-sm rounded-full text-white"
+          >
+            <X size={20} />
+          </button>
+        )}
+      </div>
+      
+      <div className="p-4">
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+          {title}
+        </h3>
+        {description && (
+          <p className="mt-2 text-sm text-gray-600 dark:text-gray-300">
+            {description}
+          </p>
+        )}
+        {children}
+      </div>
+    </motion.div>
   );
-}
+};
+
+export default ARCardEnhanced;

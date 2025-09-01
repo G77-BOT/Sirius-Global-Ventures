@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect, ReactNode, useCallback } from 'react';
 
 type ARMode = 'idle' | 'viewing' | 'interacting' | 'menu';
 interface ARState {
@@ -16,6 +16,7 @@ interface ARActions {
   endARSession: () => void;
   selectModel: (modelUrl: string) => void;
   setARMode: (mode: ARMode) => void;
+  launchAR: (modelUrl: string) => void;
 }
 
 const ARContext = createContext<ARState & ARActions | undefined>(undefined);
@@ -91,16 +92,23 @@ export const ARProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     }));
   };
 
+  const launchAR = useCallback((modelUrl: string) => {
+    console.log('Launching AR with model:', modelUrl);
+    selectModel(modelUrl);
+    startARSession().catch(console.error);
+  }, [selectModel, startARSession]);
+
+  const value = {
+    ...state,
+    startARSession,
+    endARSession,
+    selectModel,
+    setARMode,
+    launchAR,
+  };
+
   return (
-    <ARContext.Provider
-      value={{
-        ...state,
-        startARSession,
-        endARSession,
-        selectModel,
-        setARMode,
-      }}
-    >
+    <ARContext.Provider value={value}>
       {children}
     </ARContext.Provider>
   );

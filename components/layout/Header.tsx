@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useState, useEffect, useRef } from 'react';
-import { Menu, X, ChevronDown, Sparkles } from 'lucide-react';
+import { Menu, X, ChevronDown } from 'lucide-react';
 import { ThemeToggleButton } from '../ui/ThemeToggle';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -36,7 +36,6 @@ const navigation = [
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState<string | null>(null);
-  const [isHovered, setIsHovered] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -55,33 +54,7 @@ export default function Header() {
       className={`bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm shadow-lg border-b border-blue-100 dark:border-gray-700 sticky top-0 z-50 transition-all duration-300 ${
         isScrolled ? 'py-2' : 'py-4'
       }`}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
     >
-      <AnimatePresence>
-        {isHovered && (
-          <motion.div 
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            className="absolute top-full left-0 right-0 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-800 dark:to-gray-900 border-t border-blue-100 dark:border-gray-700 shadow-lg"
-          >
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-6">
-                  <Link href="/ar" className="flex items-center space-x-2 text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors">
-                    <Sparkles className="w-5 h-5" />
-                    <span>Experience in AR</span>
-                  </Link>
-                </div>
-                <div className="flex items-center space-x-4">
-                  <ThemeToggleButton />
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
       
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" aria-label="Global">
         <div className="flex items-center justify-between h-16">

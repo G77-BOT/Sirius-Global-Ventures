@@ -117,7 +117,7 @@ export default function Footer() {
                 <li key={item.name}>
                   {item.external ? (
                     <a 
-                      href="https://bostream.ca"
+                      href="https://botstream.ca"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-gray-300 hover:text-white transition-colors flex items-center"
